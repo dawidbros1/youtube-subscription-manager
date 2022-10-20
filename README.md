@@ -1,4 +1,4 @@
-# PHP Start [ Version 2.0 ]
+# Youtube subscription manager
 The application allows you to place subscriptions in various directories
 
 ## Build with
