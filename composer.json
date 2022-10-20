@@ -1,0 +1,17 @@
+{
+    "name": "dawid/project",
+    "authors": [
+        {
+            "name": "dawidbros1",
+            "email": "dawidbros1@wp.pl"
+        }
+    ],
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Phantom\\": "framework/"
+        }
+    }
+}
