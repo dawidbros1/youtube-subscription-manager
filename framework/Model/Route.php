@@ -31,7 +31,8 @@ class Route
     }
 
     # Method adds new route to $routes and adds RewriteRule to file .htaccess
-    # string $prefix: It is prefix of controller name like a user|category. If is empty will be runs default type (general)
+    # string $type: It is a prefix of controller name like a user|category. If is empty will be runs default type (general)
+    # string $prefix: Create url => prefix.url
     # string $action: Which action from controller will be runs. If $action is empty will be run method index()
     # string $url: It is url which will be see on address bar. Example: user/profile | users/list
     public function register(string $type, string $prefix, string $action = "", string $url = "")
@@ -43,7 +44,7 @@ class Route
 
         foreach ($array as $string) {
             if (preg_match("/^{.+}$/", $string)) {
-                if (str_contains($string, "_id") || $string == "{id}") {
+                if (preg_match("/_id/", $string) || $string == "{id}") {
                     $replace = "([0-9]+)";
                 } else {
                     $replace = "(.)+";
