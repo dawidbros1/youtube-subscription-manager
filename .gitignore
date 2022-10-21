@@ -1,5 +1,4 @@
 /vendor/
 /config/config.php
 /uploads/
-.htaccess
 client_secret.json
