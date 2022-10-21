@@ -7,6 +7,9 @@ ini_set('session.cookie_lifetime', '31536000');
 ini_set('session.gc_probability', '1');
 ini_set('session.gc_divisor', '1');
 
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
+
 session_start();
 
 require_once 'framework/Utils/debug.php';
@@ -40,7 +43,7 @@ try {
         $controller = new $phantom($request);
     } else {
         dump("TODO [index.php]: Controller [" . $type . "] doen't exists");
-        //TODO Controller doen't exists
+        // TODO Controller doen't exists
         die();
     }
 
@@ -52,7 +55,7 @@ try {
 } catch (AppException $e) {
     echo '<h1>Wystąpił błąd w aplikacji</h1>';
     echo '<h3>' . $e->getMessage() . '</h3>';
-} catch (\Throwable$e) {
+} catch (\Throwable $e) {
     echo '<h1>Wystąpił błąd w aplikacji </h1>';
     dump($e);
 }

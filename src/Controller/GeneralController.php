@@ -14,7 +14,14 @@ class GeneralController extends AbstractController
     public function index(): View
     {
         View::set("Strona główna", "home");
-        return $this->render('general/home');
+
+        $youtube = $this->googleClient->getYoutubeService();
+        // $response = $youtube->subscriptions->listSubscriptions('id', ["mine" => true]);
+        // $response = $youtube->listSubscriptions();
+        // dump($response);
+        // die();
+
+        return $this->render('general/home', ['google_login_url' => $this->googleClient->getGoogleLoginUrl()]);
     }
 
     public function policyAction(): View

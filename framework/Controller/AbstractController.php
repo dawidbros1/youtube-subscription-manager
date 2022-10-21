@@ -5,6 +5,7 @@ declare (strict_types = 1);
 namespace Phantom\Controller;
 
 use App\Model\User;
+use App\Service\GoogleClient;
 use Phantom\Exception\AppException;
 use Phantom\Exception\ConfigurationException;
 use Phantom\Exception\StorageException;
@@ -29,12 +30,12 @@ abstract class AbstractController extends Validator
     protected $mail;
     private $userModel;
     protected $model;
+    protected $googleClient;
     public static function initConfiguration(Config $config, Route $route): void
     {
         self::$config = $config;
         self::$route = $route;
     }
-
     public function __construct(Request $request)
     {
         if (empty(self::$config->get('db'))) {
@@ -43,13 +44,12 @@ abstract class AbstractController extends Validator
 
         AbstractModel::initConfiguration(self::$config);
         AbstractRepository::initConfiguration(self::$config->get('db'));
-        User::initConfiguration(self::$config);
 
-        $this->mail = new Mail(self::$config->get('mail'));
+        $this->googleClient = new GoogleClient(self::$config->get('project.location'), self::$route);
 
-        if (Session::get('user:id')) {
-            $this->user = (new User())->findById(User::ID());
-        }
+        $this->mail = new Mail();
+
+        $this->user = $this->googleClient->login();
 
         $this->request = $request;
     }
@@ -112,16 +112,6 @@ abstract class AbstractController extends Validator
             $this->redirect('auth.login');
         }
     }
-    # Method required to logged in user has role admin
-    protected function forAdmin(): void
-    {
-        $this->forLogged();
-
-        if (!$this->user->isAdmin()) {
-            Session::error("Nie posiadasz wystarczających uprawnień do akcji, którą chciałeś wykonać");
-            $this->redirect('home');
-        }
-    }
 
     # Method returns View
     protected function render(string $page, array $params = []): View
@@ -141,4 +131,9 @@ abstract class AbstractController extends Validator
 
         return $redirectToRoute;
     }
+    protected function getClient()
+    {
+        return $this->googleClient->getClient();
+    }
+
 }

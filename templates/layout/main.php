@@ -5,10 +5,8 @@
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <link href="<?=$location?>/public/css/style.css" rel="stylesheet">
 
     <?php if ($style): ?>
@@ -47,8 +45,7 @@
                         <div class = "d-sm-none border-top"></div>
 
                         <div class = "d-sm-none <?=$margin?>">
-                            <li><a class="nav-link" href="<?=$route->get('user.profile')?>">Profil</a></li>
-                            <li><a class="nav-link" href="<?=$route->get('user.logout')?>">Wyloguj</a></li>
+                            
                         </div>
                     <?php endif;?>
                 </ul>
@@ -59,8 +56,7 @@
                 <?php if (!$user): ?>
                     <div class = "d-sm-none border-top"></div>
                     <div class = "d-sm-flex <?=$margin?>">
-                        <li class="nav-item"> <a class="nav-link" href="<?=$route->get('registration')?>">Zarejestruj się</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?=$route->get('authorization')?>">Zaloguj się</a></li>
+
                     </div>
                 <?php endif;?>
 
@@ -70,11 +66,10 @@
                         <!-- USERS -->
                         <li class="nav-item dropdown">
                             <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?=$user->username?>
+                                Zalogowany
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                                <li><a class="dropdown-item" href="<?=$route->get('user.profile')?>">Profil</a></li>
-                                <li><a class="dropdown-item" href="<?=$route->get('user.logout')?>">Wyloguj</a></li>
+                                <li><a class="dropdown-item" href="<?=$route->get('authorization.logout')?>">Wyloguj</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -82,7 +77,6 @@
                 </ul>
             </div>
         </nav>
-
 
         <div class="content">
             <?php require_once "templates/messages.php";?>
@@ -98,11 +92,8 @@
 
 
    <footer class="bg-dark text-center text-white position-relative w-100 bottom-0">
-    <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
-        Treść stopki
-    </div>
-</footer>
-
+    <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">Treść stopki</div>
+   </footer>
 </body>
 
 </html>
