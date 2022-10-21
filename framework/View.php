@@ -16,7 +16,7 @@ class View
     # location of styles: public/css
     private static $location;
 
-    public function __construct(User | null $user, Route $route, string $page, array $params)
+    public function __construct($user, Route $route, string $page, array $params)
     {
         $this->user = $user;
         $this->route = $route;

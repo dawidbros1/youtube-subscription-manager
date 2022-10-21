@@ -8,7 +8,6 @@ use App\Model\Authorization;
 use Phantom\Controller\AbstractController;
 use Phantom\Helper\Request;
 use Phantom\Helper\Session;
-use Phantom\RedirectToRoute;
 use Phantom\View;
 
 class AuthorizationController extends AbstractController
@@ -21,7 +20,7 @@ class AuthorizationController extends AbstractController
     }
 
     # Method login user
-    public function index(): View | RedirectToRoute
+    public function index()
     {
         View::set("Logowanie");
 

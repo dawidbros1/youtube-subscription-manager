@@ -9,7 +9,6 @@ use App\Model\User;
 use Phantom\Controller\AbstractController;
 use Phantom\Helper\Request;
 use Phantom\Helper\Session;
-use Phantom\RedirectToRoute;
 use Phantom\View;
 
 class PasswordRecoveryController extends AbstractController
@@ -22,7 +21,7 @@ class PasswordRecoveryController extends AbstractController
     }
 
     # Method sends email to user mail with link to reset password
-    public function forgotAction(): View | RedirectToRoute
+    public function forgotAction()
     {
         View::set("Przypomnienie hasła");
 
@@ -40,7 +39,7 @@ class PasswordRecoveryController extends AbstractController
     }
 
     # Method updates user password
-    public function resetAction(): View | RedirectToRoute
+    public function resetAction()
     {
         View::set("Reset hasła");
 
@@ -48,7 +47,7 @@ class PasswordRecoveryController extends AbstractController
             $this->checkCodeToResetPassword($code = $data['code']); # Check if session code is correct and valid
 
             if ($user = $this->model->resetPassword($data, $code)) { # Reset password
-                return $this->redirect('authorization', ['email' => $user->email]);
+            return $this->redirect('authorization', ['email' => $user->email]);
             } else {
                 return $this->redirect('passwordRecovery.reset', ['code' => $code]);
             }

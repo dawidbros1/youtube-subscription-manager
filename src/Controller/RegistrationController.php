@@ -8,7 +8,6 @@ use App\Model\Registration;
 use Phantom\Controller\AbstractController;
 use Phantom\Helper\Checkbox;
 use Phantom\Helper\Request;
-use Phantom\RedirectToRoute;
 use Phantom\View;
 
 class RegistrationController extends AbstractController
@@ -21,7 +20,7 @@ class RegistrationController extends AbstractController
     }
 
     # Method adds new user
-    public function index(): View | RedirectToRoute
+    public function index()
     {
         View::set("Rejestracja");
 

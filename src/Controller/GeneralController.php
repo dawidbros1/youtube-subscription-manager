@@ -7,7 +7,6 @@ namespace App\Controller;
 use Phantom\Controller\AbstractController;
 use Phantom\Helper\Session;
 use Phantom\Model\Mail;
-use Phantom\RedirectToRoute;
 use Phantom\View;
 
 class GeneralController extends AbstractController
@@ -31,7 +30,7 @@ class GeneralController extends AbstractController
     }
 
     # Method sends message to website admin by contact form
-    public function contactAction(): View | RedirectToRoute
+    public function contactAction()
     {
         View::set("Strona kontaktowa", "contact");
         $names = ['name', 'from', 'message', 'subject', 'g-recaptcha-response'];

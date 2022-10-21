@@ -71,7 +71,7 @@ abstract class AbstractController extends Validator
                 throw new AppException("Invalid type returned [" . gettype($result) . "]! Controller must return object.");
             }
 
-            switch ($result::class) {
+            switch (get_class($result)) {
                 case "Phantom\View":{
                         $result->render();
                         break;
