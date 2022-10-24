@@ -45,7 +45,7 @@
                         <div class = "d-sm-none border-top"></div>
 
                         <div class = "d-sm-none <?=$margin?>">
-                            
+
                         </div>
                     <?php endif;?>
                 </ul>
@@ -66,7 +66,7 @@
                         <!-- USERS -->
                         <li class="nav-item dropdown">
                             <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Zalogowany
+                                <?=$user->getUsername()?>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
                                 <li><a class="dropdown-item" href="<?=$route->get('authorization.logout')?>">Wyloguj</a></li>
