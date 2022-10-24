@@ -4,15 +4,16 @@ declare (strict_types = 1);
 
 namespace App\Service;
 
+use App\Model\User;
 use Phantom\Helper\Session;
 use Phantom\Model\Route;
+use stdClass;
 
 class GoogleClient
 {
     private $client;
     private $url;
     private $route;
-
     public function __construct(string $project_location, Route $route)
     {
         $this->route = $route;
@@ -37,7 +38,9 @@ class GoogleClient
             $this->client->setAccessToken($access_token);
             $this->validateAccessToken();
 
-            return $this->client;
+            $youtube = new \Google_Service_YouTube($this->client);
+            $channel = $youtube->channels->listChannels('snippet,id,contentDetails', ["mine" => true]);
+            return new User($channel[0]);
         }
 
         return null;
@@ -51,7 +54,12 @@ class GoogleClient
     private function validateAccessToken()
     {
         if ($this->client->isAccessTokenExpired()) {
+            $class = new stdClass();
+            $class->login = false;
+
+            $this->client->setState(json_encode($class));
             $authUrl = $this->client->createAuthUrl();
+
             header('Location: ' . filter_var($authUrl, FILTER_SANITIZE_URL));
             exit();
         }
