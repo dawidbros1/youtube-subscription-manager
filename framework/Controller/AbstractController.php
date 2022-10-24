@@ -4,6 +4,9 @@ declare (strict_types = 1);
 
 namespace Phantom\Controller;
 
+error_reporting(0);
+ini_set('display_errors', "0");
+
 use App\Model\User;
 use App\Service\GoogleClient;
 use Phantom\Exception\AppException;
@@ -46,10 +49,21 @@ abstract class AbstractController extends Validator
         AbstractRepository::initConfiguration(self::$config->get('db'));
 
         $this->googleClient = new GoogleClient(self::$config->get('project.location'), self::$route);
-
         $this->mail = new Mail();
 
-        $this->user = $this->googleClient->login();
+        $needsLogin = true;
+
+        if ($json = $request->getParam("state", false)) {
+            $object = json_decode($json);
+
+            if (property_exists($object, 'login')) {
+                $needsLogin = (bool) $object->login;
+            }
+        }
+
+        if ($needsLogin) {
+            $this->user = $this->googleClient->login();
+        }
 
         $this->request = $request;
     }
