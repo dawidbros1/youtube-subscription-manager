@@ -129,7 +129,7 @@ abstract class AbstractModel
         $data = $this->repository->getAll($conditions, $options);
 
         if ($namaspace == null) {
-            // $namaspace = get_class($this);
+            $namaspace = get_class($this);
         }
 
         if ($data) {
@@ -145,7 +145,9 @@ abstract class AbstractModel
     # if object was validated earlier we can skip validate in this method
     public function create(bool $validate = true)
     {
-        if (($validate === true && $this->validate($this)) || $validate === false) {
+        $data = $this->getArray($this->fillable);
+
+        if (($validate === true && $this->validate($data)) || $validate === false) {
             $this->repository->create($this);
             return true;
         }
