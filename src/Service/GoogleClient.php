@@ -19,6 +19,7 @@ class GoogleClient
         $this->route = $route;
         $this->client = new \Google_client();
         $this->client->setAuthConfig('client_secret.json');
+        $this->client->setAccessType('offline');
 
         $this->client->setScopes([
             \Google_Service_YouTube::YOUTUBE_READONLY,
