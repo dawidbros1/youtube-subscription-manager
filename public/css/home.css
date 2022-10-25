@@ -1,0 +1,41 @@
+.content {
+   margin: 0 auto;
+   width: 80vw;
+}
+
+#loginBox{
+   width: 450px;
+
+   margin: 0 auto 0;
+   padding: 10px;
+   border: 1px solid black;
+
+   background-color: white;
+}
+
+#loginBox #link{
+   width: 100%;
+}
+
+#loginBox a{
+   margin: auto;
+   font-size: 27px;
+   text-decoration: none;
+}
+
+img#google{
+   width: 64px;
+   height: 64px;
+}
+
+img{
+   width: 256px;
+   height: 256px;
+}
+
+/* ===== */
+
+.info-box .title{
+   font-weight: bold;
+}
+
