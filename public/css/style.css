@@ -52,10 +52,6 @@ div.container-fluid {
     cursor: pointer;
 }
 
-.container-fluid{
-    min-height: calc(100% - 40px); 
-}
-
 footer{
     height: 40px;
 }
