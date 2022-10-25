@@ -38,7 +38,10 @@ class Route
     public function register(string $type, string $prefix, string $action = "", string $url = "")
     {
         $url = $prefix . $url;
+        $routeAction = $action;
         $url = substr($url, 1);
+
+        $routeUrl = $this->location . $url;
         $array = explode("/", $url);
         $index = 1;
 
@@ -56,22 +59,20 @@ class Route
             }
         }
 
-        $fullUrl = $this->location . $url;
-
         # actions in GeneralController
         if (strlen($type) == 0) {
-            $this->routes[$action] = $fullUrl;
+            $this->routes[$routeAction] = $routeUrl;
             $line = "RewriteRule ^$url$ ./?action=$action";
         }
 
         # action index() in AnyController
         if (strlen($type) != 0 && strlen($action) == 0) {
-            $this->routes[$type] = $fullUrl;
+            $this->routes[$type] = $routeUrl;
             $line = "RewriteRule ^$url$ ./?type=$type";
         }
 
         if (strlen($type) != 0 && strlen($action) != 0) {
-            $this->routes[$type][$action] = $fullUrl;
+            $this->routes[$type][$routeAction] = $routeUrl;
             $line = "RewriteRule ^$url$ ./?type=$type&action=$action";
         }
 
@@ -87,13 +88,12 @@ class Route
     }
 
     # Method returns value (address) of route like a ./?type=user&action=list
-    public function get($path)
+    public function get(string $path, array $params = [])
     {
         $output = $this->routes;
         $array = explode(".", $path);
 
         foreach ($array as $name) {
-
             if (array_key_exists($name, $output)) {
                 $output = $output[$name];
             } else {
@@ -101,6 +101,19 @@ class Route
             }
         }
 
-        return $output;
+        $array = explode("/", $output);
+        $output = [];
+
+        foreach ($array as $string) {
+            $url = $string;
+
+            if (preg_match("/^{.+}$/", $string)) {
+                $url = str_replace($string, array_shift($params), $url);
+            }
+
+            $output[] = $url;
+        }
+
+        return implode($output, "/");
     }
 }
