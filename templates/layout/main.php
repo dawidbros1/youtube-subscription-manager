@@ -23,17 +23,22 @@ use Phantom\Component\Component;
 
    <script src='https://www.google.com/recaptcha/api.js'></script>
    <script src="<?=$location?>/public/js/main.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
    <div class="container-fluid">
       <div id="wrapper" class="toggled">
          <div id="sidebar-wrapper" class="text-white">
+            <div id = "menu-toggle">
+               <img id = "hamburger" src = "<?=$location?>/public/images/hamburger.png">
+            </div>
             <ul class="sidebar-nav">
                <li class="sidebar-brand text-white">Nazwa aplikacji</li>
                <li><a href="<?=$route->get('home')?>">Strona główna</a></li>
 
                <?php if ($user): ?>
+               <li><a href="<?=$route->get('category.manage')?>">Zarządzaj grupami</a></li>
                <hr>
                <div class="group">
                   <div>Moje grupy</div>
@@ -68,14 +73,14 @@ use Phantom\Component\Component;
                <?php endif;?>
             </ul>
          </div>
+
          <!-- /#sidebar-wrapper -->
 
          <!-- Page Content -->
          <div id="page-content-wrapper">
-            <div class="container-fluid">
-               <?php require_once 'templates/messages.php';?>
-               <?php require_once "templates/$page.php";?>
-            </div>
+            <?php require_once 'templates/messages.php';?>
+            <?php require_once "templates/$page.php";?>
+
             <!-- /#wrapper -->
 
             <!-- Menu Toggle Script -->
@@ -83,6 +88,8 @@ use Phantom\Component\Component;
             $("#menu-toggle").click(function(e) {
                e.preventDefault();
                $("#wrapper").toggleClass("toggled");
+               $("#sidebar-wrapper").toggleClass("active");
+               $("#page-content-wrapper").toggleClass("show");
             });
             </script>
          </div>
@@ -102,7 +109,7 @@ use Phantom\Component\Component;
    </script>
 
    <script>
-      initToggleCategoryDeleteForm();
+      // initToggleCategoryDeleteForm();
    </script>
 </body>
 
