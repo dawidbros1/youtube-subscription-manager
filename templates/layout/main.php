@@ -91,6 +91,12 @@ use Phantom\Component\Component;
                $("#sidebar-wrapper").toggleClass("active");
                $("#page-content-wrapper").toggleClass("show");
             });
+
+            // 576 is max width from css media
+            if ($( window ).width() <= 576){
+               $("#hamburger").click();
+            }
+
             </script>
          </div>
       </div>
