@@ -4,11 +4,11 @@ declare (strict_types = 1);
 
 namespace Phantom\Controller;
 
-error_reporting(0);
-ini_set('display_errors', "0");
+error_reporting(1);
+ini_set('display_errors', "1");
 
 use App\Model\User;
-use App\Service\GoogleClient;
+use App\Service\Google;
 use Phantom\Exception\AppException;
 use Phantom\Exception\ConfigurationException;
 use Phantom\Exception\StorageException;
@@ -33,7 +33,7 @@ abstract class AbstractController extends Validator
     protected $mail;
     private $userModel;
     protected $model;
-    protected $googleClient;
+    protected $google;
     public static function initConfiguration(Config $config, Route $route): void
     {
         self::$config = $config;
@@ -48,7 +48,7 @@ abstract class AbstractController extends Validator
         AbstractModel::initConfiguration(self::$config);
         AbstractRepository::initConfiguration(self::$config->get('db'));
 
-        $this->googleClient = new GoogleClient(self::$config->get('project.location'), self::$route);
+        $this->google = new Google(self::$config->get('project.location'), self::$route);
         $this->mail = new Mail();
 
         $needsLogin = true;
@@ -62,7 +62,7 @@ abstract class AbstractController extends Validator
         }
 
         if ($needsLogin) {
-            $this->user = $this->googleClient->login();
+            $this->user = $this->google->login();
         }
 
         $this->request = $request;
@@ -145,9 +145,4 @@ abstract class AbstractController extends Validator
 
         return $redirectToRoute;
     }
-    protected function getClient()
-    {
-        return $this->googleClient->getClient();
-    }
-
 }

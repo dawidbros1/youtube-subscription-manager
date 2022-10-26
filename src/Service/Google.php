@@ -9,7 +9,7 @@ use Phantom\Helper\Session;
 use Phantom\Model\Route;
 use stdClass;
 
-class GoogleClient
+class Google
 {
     private $client;
     private $url;

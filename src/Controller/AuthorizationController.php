@@ -14,14 +14,14 @@ class AuthorizationController extends AbstractController
     public function saveAccessTokenAction()
     {
         header('Location: ' . filter_var(self::$config->get('project.location'), FILTER_SANITIZE_URL));
-        $client = $this->getClient();
+        $client = $this->google->getClient();
         $client->authenticate($_GET['code']);
         Session::set('access_token', $client->getAccessToken());
     }
 
     public function logoutAction()
     {
-        $this->googleClient->logout();
+        $this->google->logout();
         return $this->redirect('home');
     }
 
