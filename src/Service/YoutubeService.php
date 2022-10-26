@@ -14,9 +14,20 @@ class YoutubeService
         // $channel = $response->items[0]->id;
         // $videos = $service->videos->listVideos('player', ['id' => 'Ks-_Mh1QhMc,c0KYU2j0TM4,eIho2S0ZahI']);
     }
+    public function get()
+    {
+        return $this->service;
+    }
+
+    public function getMyChannel()
+    {
+        $channels = $this->service->channels->listChannels('snippet,id,contentDetails', ["mine" => true]);
+        return $channels[0];
+    }
 
     public function listSubscriptions()
     {
         return $this->service->subscriptions->listSubscriptions('id', ["mine" => true]);
     }
+
 }
