@@ -51,20 +51,7 @@ abstract class AbstractController extends Validator
         $this->google = new Google(self::$config->get('project.location'), self::$route);
         $this->mail = new Mail();
 
-        $needsLogin = true;
-
-        if ($json = $request->getParam("state", false)) {
-            $object = json_decode($json);
-
-            if (property_exists($object, 'login')) {
-                $needsLogin = (bool) $object->login;
-            }
-        }
-
-        if ($needsLogin) {
-            $this->user = $this->google->login();
-        }
-
+        $this->user = $this->google->login();
         $this->request = $request;
     }
 
