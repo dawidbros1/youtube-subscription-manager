@@ -10,6 +10,7 @@ $route->register('', '/contact', 'contact');
 
 $route->group('category', '/category', [
     'list' => "/list",
+    'manage' => "/manage",
     'create' => "/create",
     'edit' => "/edit/{id}",
     'delete' => "/delete/{id}",
