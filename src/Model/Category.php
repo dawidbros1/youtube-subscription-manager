@@ -14,6 +14,13 @@ class Category extends AbstractModel
     public function delete(?int $id = null)
     {
         parent::delete();
-        Session::success("Grupa " . $this->get('name') . " została usunięta");
+        Session::success("Grupa <b>" . $this->get('name') . "</b> została usunięta");
+    }
+
+    public function update(array $toValidate = [], bool $validate = true)
+    {
+        if (parent::update($toValidate, $validate) == false) {
+            Session::error(Session::get('error:name:between', true));
+        }
     }
 }
