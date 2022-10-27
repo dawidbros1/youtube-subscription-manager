@@ -16,4 +16,19 @@ class Assets
     {
         return self::$location . "public/" . $path;
     }
+
+    public static function css(string $path)
+    {
+        return self::$location . "public/css/" . $path;
+    }
+
+    public static function js(string $path)
+    {
+        return self::$location . "public/js/" . $path;
+    }
+
+    public static function images(string $path)
+    {
+        return self::$location . "public/images/" . $path;
+    }
 }
