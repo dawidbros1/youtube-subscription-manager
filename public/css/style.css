@@ -65,3 +65,16 @@ footer div{
     color: #682773;
     cursor: pointer
 }
+
+.error{
+    margin-top: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.center{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
