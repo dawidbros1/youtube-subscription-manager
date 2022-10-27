@@ -88,7 +88,7 @@ class Route
     }
 
     # Method returns value (address) of route like a ./?type=user&action=list
-    public function get(string $path, array $params = [])
+    public function get(string $path, $params = [])
     {
         $output = $this->routes;
         $array = explode(".", $path);
@@ -99,6 +99,10 @@ class Route
             } else {
                 throw new AppException("Podany klucz routingu [ $path ] nie istnieje");
             }
+        }
+
+        if (!is_array($params)) {
+            $params = [$params];
         }
 
         $array = explode("/", $output);
