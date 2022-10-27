@@ -104,9 +104,7 @@ abstract class AbstractModel
     public function find(array $conditions, string $options = "", bool $rulesitory = true, $namaspace = null)
     {
         if ($namaspace == null) {
-
-            die();
-            // $namaspace = get_class($this);
+            $namaspace = get_class($this);
         }
 
         if ($data = $this->repository->get($conditions, $options)) {
