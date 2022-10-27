@@ -25,6 +25,7 @@ class CategoryController extends AbstractController
         return $this->render("category/list", ['name' => null]);
     }
 
+    // Method create category => ONLY POST => Form in layout (main) in sidebar
     public function createAction()
     {
         if ($name = $this->request->isPost(['name'])) {
@@ -38,14 +39,32 @@ class CategoryController extends AbstractController
             }
         }
 
-        return $this->redirect('home');
+        $this->redirectToLastPage();
     }
 
+    // Method edit group name => ONLY POST => Form in category.manage
     public function editAction()
     {
-        // TODO
+        if ($name = $this->request->isPost(['name'])) {
+            $category = $this->search();
+            $category->set('name', $name);
+            $category->update(['name']);
+        }
+
+        return $this->redirect('category.manage');
     }
 
+    // Here we can edit and delete categories || go in category to adds subs to group
+    public function manageAction()
+    {
+        View::set("Panel zarządzania grupami", 'manage');
+        // List all subs $user->getCategories()
+        // Add icon to delete | hidden form to edit
+
+        return $this->render('category/manage');
+    }
+
+    // Method shows videos from single group
     public function showAction()
     {
         $category = $this->search();
@@ -54,9 +73,12 @@ class CategoryController extends AbstractController
 
     public function deleteAction()
     {
-        $category = $this->search();
-        $category->delete();
-        return $this->redirect("home");
+        if ($this->request->isPost()) {
+            $category = $this->search();
+            $category->delete();
+        }
+
+        return $this->redirect("category.manage");
     }
 
     private function search()
