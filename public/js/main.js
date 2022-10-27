@@ -9,24 +9,27 @@ function initCloseAlertButtons() {
     }
 }
 
-function initToggleCategoryDeleteForm() {
-    var wrapper = document.getElementById("category-delete-form-wrapper");
-    var cancel = document.getElementById('cancel');
-
-    cancel.addEventListener('click', () => {
-        wrapper.classList.add('d-none')
-    })
-
-    var category_name = document.getElementById("category-name");
-    var handles = document.getElementsByClassName('delete-form-handle');
-    var form = document.getElementById('category-delete-form');
+function initToggleForm(type) {
+    var wrappers = document.getElementsByClassName(`${type}-form-wrapper`);
+    var handles = document.getElementsByClassName(`${type}-form-handle`);
+    var buttonsCancel = document.querySelectorAll(`.${type}-form-wrapper .cancel`);
 
     for (let i = 0; i < handles.length; i++) {
+        let wrapper = wrappers[i];
         let handle = handles[i];
+        let cancel = buttonsCancel[i];
+
         handle.addEventListener('click', () => {
+            hideWrappers(wrappers);
             wrapper.classList.remove('d-none');
-            category_name.innerHTML = handle.dataset.name;
-            form.setAttribute('action', handle.dataset.action);
         })
+
+        cancel.addEventListener('click', () => hideWrappers(wrappers));
+    }
+}
+
+function hideWrappers(wrappers) {
+    for (var i = 0; i < wrappers.length; i++) {
+        wrappers[i].classList.add('d-none');
     }
 }
