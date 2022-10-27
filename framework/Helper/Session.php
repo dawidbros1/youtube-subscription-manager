@@ -23,21 +23,17 @@ class Session
     }
 
     # Method returns value of session with given name
-    public static function get($name)
+    public static function get($name, $clear = false)
     {
         if (Session::has($name) == true) {
-            return $_SESSION[$name];
-        } else {
-            return null;
+            $value = $_SESSION[$name];
         }
-    }
 
-    # Method returns value of session with given name and next unsets it
-    public static function getNextClear($name)
-    {
-        $value = Session::get($name);
-        Session::clear($name);
-        return $value;
+        if ($clear == true) {
+            Session::clear($name);
+        }
+
+        return $value ?? null;
     }
 
     # Method sets value of session with given name
