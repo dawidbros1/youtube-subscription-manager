@@ -132,4 +132,10 @@ abstract class AbstractController extends Validator
 
         return $redirectToRoute;
     }
+
+    protected function redirectToLastPage()
+    {
+        header("Location: " . $this->request->lastPage());
+        exit();
+    }
 }
