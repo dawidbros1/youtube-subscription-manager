@@ -1,10 +1,5 @@
  /* CREATE */
  
- .group{
-   text-indent: 20px;
-   line-height: 40px;
-  }
-
   #create-category-form{
    padding: 5px 10px;
   }
@@ -24,8 +19,4 @@
    border-radius: 5px;
    border-top-left-radius: 0px;
    border-top-right-radius: 0px;
-  }
- 
-  hr{
-   height: 3px !important;
   }

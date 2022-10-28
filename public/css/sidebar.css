@@ -1,153 +1,77 @@
-/*!
- * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
- * Copyright 2013-2017 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
- */
-
+ /* https://www.sliderrevolution.com/resources/bootstrap-sidebar/  */
+ /* https://codepen.io/fortecdev/pen/zPxXWj */
+ 
  body {
    overflow-x: hidden;
  }
  
- #wrapper {
-   padding-left: 50px;
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   transition: all 0.5s ease;
- }
- 
- #wrapper.toggled {
-   padding-left: 250px;
- }
- 
- #sidebar-wrapper {
-   z-index: 10;
-   position: fixed;
-   left: 250px;
-   width: 0;
-   height: 100%;
-   margin-left: -250px;
-   overflow-y: auto;
-   background: #000;
-   -webkit-transition: all 0.5s ease;
-   -moz-transition: all 0.5s ease;
-   -o-transition: all 0.5s ease;
-   transition: all 0.5s ease;
- }
- 
- #wrapper.toggled #sidebar-wrapper {
-   width: 250px;
-   /* width: 333px; */
-   overflow: hidden;
- }
- 
- #page-content-wrapper {
-   width: 100%;
-   padding: 15px;
-   min-height: 100vh;
- }
- 
- #wrapper.toggled #page-content-wrapper {
-   position: relative;
-   margin-right: -300px;
- }
- 
- 
- /* Sidebar Styles */
- 
- .sidebar-nav {
-   position: absolute;
-   top: 0;
-   width: 250px;
-   margin: 0;
-   padding: 0;
-   list-style: none;
- }
- 
- .sidebar-nav li{
-   text-indent: 20px;
-   line-height: 40px;
- }
- 
- .sidebar-nav li a {
-   display: block;
-   text-decoration: none;
-   color: #999999;
- }
- 
- .sidebar-nav li a:hover {
-   text-decoration: none;
-   color: #fff;
-   background: rgba(255, 255, 255, 0.2);
- }
- 
- .sidebar-nav li a:active, .sidebar-nav li a:focus {
-   text-decoration: none;
- }
- 
- .sidebar-nav>.sidebar-brand {
-   height: 65px;
-   font-size: 18px;
-   line-height: 60px;
- }
- 
- .sidebar-nav>.sidebar-brand a {
-   color: #999999;
- }
- 
- .sidebar-nav>.sidebar-brand a:hover {
-   color: #fff;
-   background: none;
- }
- 
- @media(min-width:768px) {
-   #wrapper.toggled {
-     padding-left: 250px;
-   }
-   #sidebar-wrapper {
-     width: 0;
-   }
-   #page-content-wrapper {
-     padding: 20px;
-     position: relative;
-   }
-   #wrapper.toggled #page-content-wrapper {
-     position: relative;
-     margin-right: 0;
-   }
+ #sidebar-nav{
+  width: 250px;
+  background: #000;
+  min-height: 100vh;
+  list-style: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  margin:0;
+
+  transition: all 0.5s ease;
  }
 
- @media(max-width:576px) {
-  #wrapper.toggled #sidebar-wrapper {
-    width: 100%;
-  }
+ #sidebar-nav.active * {
+  display: none;
+}
 
-  #wrapped #page-content-wrapper{
-    display: none;
-  }
+ #page-content-wrapper{
+  width: calc(100% - 250px);
+  padding: 10px;
+ }
 
-  #wrapper.toggled .sidebar-nav{
-    width: calc(100%);
-  }
+ #sidebar-nav.active + #page-content-wrapper{
+  width: calc(100% - 50px) !important;
+ }
 
-  #page-content-wrapper{
-    display: none;
-  }
+ .group{
+  margin-top: 10px;
+  border-top: 1px solid white;
+  padding-top: 10px;
+ }
 
-  #page-content-wrapper.show{
-    display: block;
-  }
- }  
+ .group .title{
+  color: white;
+  text-indent: 10px;
+  padding-bottom: 10px;
+ }
 
- /* my styles */
+ #sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #999999;
+}
+
+#sidebar-nav .sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+  text-indent: 10px;
+}
+
+#sidebar-nav li a:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#sidebar-nav li{
+  text-indent: 20px;
+  line-height: 40px;
+}
 
  #menu-toggle{
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 15px;
-
-  z-index: 20;
   cursor: pointer;
+  display: block !important;
  }
 
  #hamburger{
@@ -156,9 +80,25 @@
   background-color: white;
   padding: 2px;
   border-radius: 5px;
+  display: block !important;
  }
 
  .active{
   width: 300px !important;
-  margin-left: -500px !important;
- }
+  margin-left: -250px !important;
+  padding: 0x;
+ } 
+
+ @media(max-width:576px) {
+  #sidebar-nav {
+    width: 100%;
+  }
+
+  #sidebar-nav + #page-content-wrapper{
+    display: none;
+  }
+
+  #sidebar-nav.active + #page-content-wrapper{
+    display: block !important;
+  }
+ }  

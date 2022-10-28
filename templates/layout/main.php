@@ -29,44 +29,41 @@ use Phantom\Component\Component;
 
 <body>
    <div class="container-fluid">
-      <div id="wrapper" class="toggled">
-         <div id="sidebar-wrapper" class="text-white">
+      <div id="wrapper" class="d-flex">
+         <ul id="sidebar-nav">
+            <li class="sidebar-brand text-white">Nazwa aplikacji</li>
+            <li><a href="<?=$route->get('home')?>">Strona główna</a></li>
+
+            <?php if ($user): ?>
+            <li><a href="<?=$route->get('category.manage')?>">Zarządzaj grupami</a></li>
+            <div class="group">
+               <div class = "title">Moje grupy</div>
+
+               <?php foreach ($user->getCategories() ?? [] as $item): ?>
+                  <li>
+                     <a href="<?=$route->get('category.show', [$item->get('id')])?>"><?=$item->get('name')?></a>
+                  </li>
+               <?php endforeach;?>
+
+               <hr>
+
+               <form id="create-category-form" action="<?=$route->get('category.create')?>" method="post">
+                  <div class = "d-flex flex-wrap">
+                     <input class="col-12" name="name" type = "text" placeholder="Nazwa grupu" value = "<?=$name?>">
+                     <button class="col-12 btn btn-primary fw-bold" type = "submit">Dodaj</button>
+                  </div>
+               </form>
+            </div>
+            <?php Component::render('error', ['type' => "name", 'names' => ['between']])?>
+
+            <li><a href="<?=$route->get('authorization.logout')?>">Wyloguj</a></li>
+            <?php endif;?>
+
+
             <div id = "menu-toggle">
                <img id = "hamburger" src = "<?=Assets::images('hamburger.png')?>">
             </div>
-            <ul class="sidebar-nav">
-               <li class="sidebar-brand text-white">Nazwa aplikacji</li>
-               <li><a href="<?=$route->get('home')?>">Strona główna</a></li>
-
-               <?php if ($user): ?>
-               <li><a href="<?=$route->get('category.manage')?>">Zarządzaj grupami</a></li>
-               <hr>
-               <div class="group">
-                  <div>Moje grupy</div>
-
-                  <?php foreach ($user->getCategories() ?? [] as $item): ?>
-                     <li>
-                        <a href="<?=$route->get('category.show', [$item->get('id')])?>"><?=$item->get('name')?></a>
-                     </li>
-                  <?php endforeach;?>
-
-                  <hr>
-
-                  <form id="create-category-form" action="<?=$route->get('category.create')?>" method="post">
-                     <div class = "d-flex flex-wrap">
-                        <input class="col-12" name="name" type = "text" placeholder="Nazwa grupu" value = "<?=$name?>">
-                        <button class="col-12 btn btn-primary fw-bold" type = "submit">Dodaj</button>
-                     </div>
-                  </form>
-               </div>
-               <?php Component::render('error', ['type' => "name", 'names' => ['between']])?>
-
-
-               <hr>
-               <li><a href="<?=$route->get('authorization.logout')?>">Wyloguj</a></li>
-               <?php endif;?>
-            </ul>
-         </div>
+         </ul>
 
          <!-- /#sidebar-wrapper -->
 
@@ -81,9 +78,8 @@ use Phantom\Component\Component;
             <script>
             $("#menu-toggle").click(function(e) {
                e.preventDefault();
-               $("#wrapper").toggleClass("toggled");
-               $("#sidebar-wrapper").toggleClass("active");
-               $("#page-content-wrapper").toggleClass("show");
+               $("#sidebar-nav").toggleClass("active");
+               // $("#page-content-wrapper").toggleClass("show");
             });
 
             // 576 is max width from css media
