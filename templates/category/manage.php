@@ -24,7 +24,7 @@
          <h2 class="text-center fw-bold fs-5">EDYCJA GRUPY</h2>
 
          <form class="d-flex flex-wrap" method="post" action = "<?=$route->get('category.edit', $category->get('id'))?>">
-            <input class="form-control mb-2" type = "text" name ="name" value = <?=$category->get('name')?> placeholder="nazwa grupy">
+            <input class="form-control mb-2" type = "text" name ="name" value = "<?=$category->get('name')?>" placeholder="nazwa grupy">
             <button class="col-5 btn btn-primary cancel" type = "button">Anuluj</button>
             <button class="col-5 offset-2 btn btn-success" type = "submit">Zapisz zmiany</button>
          </form>
