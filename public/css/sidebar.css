@@ -1,104 +1,128 @@
  /* https://www.sliderrevolution.com/resources/bootstrap-sidebar/  */
  /* https://codepen.io/fortecdev/pen/zPxXWj */
- 
+
  body {
    overflow-x: hidden;
  }
- 
- #sidebar-nav{
-  width: 250px;
-  background: #000;
-  min-height: 100vh;
-  list-style: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  position: relative;
-  margin:0;
 
-  transition: all 0.5s ease;
+ #sidebar-nav {
+   width: 250px;
+   background: #000;
+   min-height: 100vh;
+   list-style: none;
+   padding-left: 10px;
+   padding-right: 10px;
+   position: relative;
+   margin: 0;
+
+   transition: all 0.5s ease;
  }
 
  #sidebar-nav.active * {
-  display: none;
-}
-
- #page-content-wrapper{
-  width: calc(100% - 250px);
-  padding: 10px;
+   display: none;
  }
 
- #sidebar-nav.active + #page-content-wrapper{
-  width: calc(100% - 50px) !important;
+ #page-content-wrapper {
+   width: calc(100% - 250px);
+   padding: 10px;
  }
 
- .group{
-  margin-top: 10px;
-  border-top: 1px solid white;
-  padding-top: 10px;
+ #sidebar-nav.active+#page-content-wrapper {
+   width: calc(100% - 50px) !important;
  }
 
- .group .title{
-  color: white;
-  text-indent: 10px;
-  padding-bottom: 10px;
+ .group {
+   margin-top: 10px;
+   border-top: 1px solid white;
+   padding-top: 10px;
+ }
+
+ .group .title {
+   color: white;
+   text-indent: 10px;
+   padding-bottom: 10px;
  }
 
  #sidebar-nav li a {
-  display: block;
-  text-decoration: none;
-  color: #999999;
-}
-
-#sidebar-nav .sidebar-brand {
-  height: 65px;
-  font-size: 18px;
-  line-height: 60px;
-  text-indent: 10px;
-}
-
-#sidebar-nav li a:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-#sidebar-nav li{
-  text-indent: 20px;
-  line-height: 40px;
-}
-
- #menu-toggle{
-  position: absolute;
-  right: 12px;
-  top: 15px;
-  cursor: pointer;
-  display: block !important;
+   display: block;
+   text-decoration: none;
+   color: #999999;
  }
 
- #hamburger{
-  width: 26px;
-  height: 26px;
-  background-color: white;
-  padding: 2px;
-  border-radius: 5px;
-  display: block !important;
+ #sidebar-nav .sidebar-brand {
+   height: 65px;
+   font-size: 18px;
+   line-height: 60px;
+   text-indent: 10px;
  }
 
- .active{
-  width: 300px !important;
-  margin-left: -250px !important;
-  padding: 0x;
- } 
+ #sidebar-nav li a:hover {
+   color: #fff;
+   background: rgba(255, 255, 255, 0.2);
+ }
+
+ #sidebar-nav li {
+   text-indent: 20px;
+   line-height: 40px;
+ }
+
+ #menu-toggle {
+   position: absolute;
+   right: 12px;
+   top: 15px;
+   cursor: pointer;
+   display: block !important;
+ }
+
+ #hamburger {
+   width: 26px;
+   height: 26px;
+   background-color: white;
+   padding: 2px;
+   border-radius: 5px;
+   display: block !important;
+ }
+
+ .active {
+   width: 300px !important;
+   margin-left: -250px !important;
+   padding: 0x;
+ }
 
  @media(max-width:576px) {
-  #sidebar-nav {
-    width: 100%;
-  }
+   #sidebar-nav {
+     width: 100%;
+   }
 
-  #sidebar-nav + #page-content-wrapper{
-    display: none;
-  }
+   #sidebar-nav+#page-content-wrapper {
+     display: none;
+   }
 
-  #sidebar-nav.active + #page-content-wrapper{
-    display: block !important;
-  }
- }  
+   #sidebar-nav.active+#page-content-wrapper {
+     display: block !important;
+   }
+ }
+
+ /* CATEGORY CREATE FORM */
+ #create-category-form {
+   margin: 0;
+ }
+
+ #create-category-form input,
+ #create-category-form button {
+   border-radius: 3px;
+   border: none;
+ }
+
+ #create-category-form input {
+   padding-left: 10px;
+   padding-right: 10px;
+
+   border-end-end-radius: 0px;
+   border-start-end-radius: 0px;
+ }
+
+ #create-category-form button {
+   border-start-start-radius: 0px;
+   border-end-start-radius: 0px;
+ }

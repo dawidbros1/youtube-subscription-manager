@@ -44,21 +44,23 @@ use Phantom\Component\Component;
                      <a href="<?=$route->get('category.show', [$item->get('id')])?>"><?=$item->get('name')?></a>
                   </li>
                <?php endforeach;?>
+            </div>
 
-               <hr>
-
+            <div class="group">
                <form id="create-category-form" action="<?=$route->get('category.create')?>" method="post">
                   <div class = "d-flex flex-wrap">
-                     <input class="col-12" name="name" type = "text" placeholder="Nazwa grupu" value = "<?=$name?>">
-                     <button class="col-12 btn btn-primary fw-bold" type = "submit">Dodaj</button>
+                     <input class="col-11 col-sm-10" name="name" type = "text" placeholder="Nazwa grupu" value = "<?=$name?>">
+                     <button class="col-1 col-sm-2 btn btn-primary fw-bold" type = "submit">+</button>
                   </div>
                </form>
+
+               <?php Component::render('error', ['type' => "name", 'names' => ['between']])?>
             </div>
-            <?php Component::render('error', ['type' => "name", 'names' => ['between']])?>
 
-            <li><a href="<?=$route->get('authorization.logout')?>">Wyloguj</a></li>
+            <div class="group">
+               <li><a href="<?=$route->get('authorization.logout')?>">Wyloguj</a></li>
+            </div>
             <?php endif;?>
-
 
             <div id = "menu-toggle">
                <img id = "hamburger" src = "<?=Assets::images('hamburger.png')?>">
