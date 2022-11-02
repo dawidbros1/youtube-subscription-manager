@@ -9,12 +9,17 @@ $route->register('authorization', '/logout', 'logout');
 $route->register('', '/contact', 'contact');
 
 $route->group('category', '/category', [
-    'list' => "/list",
-    'manage' => "/manage",
     'create' => "/create",
     'edit' => "/edit/{id}",
-    'delete' => "/delete/{id}",
+    'delete' => "/delete",
+    'manage' => "/manage",
     'show' => "/show/{id}",
+    'list' => "/list/subscriptions/{id}",
+]);
+
+$route->group('channel', '/channel', [
+    'create' => "/create",
+    'delete' => "/delete",
 ]);
 
 return $route;
