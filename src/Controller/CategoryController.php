@@ -16,13 +16,30 @@ class CategoryController extends AbstractController
     {
         parent::__construct($request);
         $this->model = new Category();
+        $this->forLogged();
     }
 
     public function listAction()
     {
-        // TODO
-        View::set("Moje grupy", 'category');
-        return $this->render("category/list", ['name' => null]);
+        View::set("Moje grupy", 'list');
+
+        $youtube = $this->google->getYoutubeService();
+        $category = $this->search();
+        $category->loadChannels();
+
+        $channelsFromCategory = $this->getChannelsFromCategory($category, $youtube);
+        $subscriptions = $this->getSubscriptions($youtube);
+
+        if (!empty($channelsFromCategory)) {
+            $subscriptions = $this->difference($subscriptions, $channelsFromCategory);
+        }
+
+        return $this->render("category/list", [
+            'category' => $category,
+            'channelsFromCategory' => $this->sortChannels($category, $channelsFromCategory),
+            'subscriptions' => $subscriptions,
+            'channels' => $category->getChannels(),
+        ]);
     }
 
     // Method create category => ONLY POST => Form in layout (main) in sidebar
@@ -93,5 +110,63 @@ class CategoryController extends AbstractController
         }
 
         return $categories[$index];
+    }
+
+    private function getSubscriptions($youtube)
+    {
+        $items = [];
+        $subscriptions = $youtube->listSubscriptions();
+
+        while ($subscriptions->nextPageToken != null) {
+            $items = array_merge($items, $subscriptions->items);
+            $pageToken = $subscriptions->nextPageToken;
+            $subscriptions = $youtube->listSubscriptions($pageToken);
+        }
+
+        return array_merge($items, $subscriptions->items);
+    }
+
+    private function getChannelsFromCategory($category, $youtube)
+    {
+        $channelsFromCategory = $category->getChannels();
+        $ids = array_column($channelsFromCategory, 'channelId');
+
+        if (empty($ids)) {
+            return [];
+        }
+
+        $channels = $youtube->getChannels($ids);
+
+        return $channels;
+    }
+
+    private function difference($items, $channels)
+    {
+        $ids = array_column($channels->items, 'id');
+
+        foreach ($items as $key => $item) {
+            if (in_array($item->snippet->resourceId->channelId, $ids)) {
+                unset($items[$key]);
+            }
+        }
+
+        return $items;
+    }
+
+    private function sortChannels($category, $channels)
+    {
+        $channelsFromCategory = $category->getChannels();
+        $ids = array_column($channelsFromCategory, 'channelId');
+        $output = [];
+
+        for ($i = 0; $i < count($channels->items); $i++) {
+            foreach ($channels->items as $channel) {
+                if ($channel->id == $ids[$i]) {
+                    $output[] = $channel;
+                }
+            }
+        }
+
+        return $output;
     }
 }
