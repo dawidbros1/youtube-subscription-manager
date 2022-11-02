@@ -10,10 +10,8 @@ class YoutubeService
     public function __construct($client)
     {
         $this->service = new \Google_Service_YouTube($client);
-        // $response = $service->subscriptions->listSubscriptions('id', ["mine" => true]);
-        // $channel = $response->items[0]->id;
-        // $videos = $service->videos->listVideos('player', ['id' => 'Ks-_Mh1QhMc,c0KYU2j0TM4,eIho2S0ZahI']);
     }
+
     public function get()
     {
         return $this->service;
@@ -21,13 +19,26 @@ class YoutubeService
 
     public function getMyChannel()
     {
-        $channels = $this->service->channels->listChannels('snippet,id,contentDetails', ["mine" => true]);
+        $channels = $this->service->channels->listChannels('snippet,id,contentDetails', [
+            "mine" => true,
+        ]);
+
         return $channels[0];
     }
 
-    public function listSubscriptions()
+    public function listSubscriptions($pageToken = null)
     {
-        return $this->service->subscriptions->listSubscriptions('id', ["mine" => true]);
+        return $this->service->subscriptions->listSubscriptions('snippet', [
+            "mine" => true,
+            "maxResults" => 50,
+            "pageToken" => $pageToken,
+        ]);
     }
 
+    public function getChannels(array $ids)
+    {
+        return $this->service->channels->listChannels('id,snippet,contentDetails', [
+            'id' => $ids,
+        ]);
+    }
 }
