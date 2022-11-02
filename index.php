@@ -7,9 +7,6 @@ ini_set('session.cookie_lifetime', '31536000');
 ini_set('session.gc_probability', '1');
 ini_set('session.gc_divisor', '1');
 
-error_reporting(E_ALL);
-ini_set('display_errors', '0');
-
 session_start();
 
 require_once 'framework/Utils/debug.php';
@@ -21,6 +18,7 @@ $config = require_once 'config/config.php';
 $location = $config->get('project.location');
 $route = require_once 'routes/routes.php'; // variable $location is require
 
+use App\Helper\Assets;
 use Phantom\Controller\AbstractController;
 use Phantom\Exception\AppException;
 use Phantom\Exception\ConfigurationException;
@@ -32,6 +30,7 @@ $request = new Request($_GET, $_POST, $_SERVER, $_FILES);
 try {
     AbstractController::initConfiguration($config, $route);
     View::initConfiguration($location);
+    Assets::initConfiguration($location);
 
     $type = $request->getParam('type', 'general');
     $phantom = "\Phantom\Controller\\" . ucfirst($type) . "Controller";

@@ -84,7 +84,9 @@ abstract class AbstractController extends Validator
             }
 
         } catch (StorageException $e) {
-            $this->view->render('error', ['message' => $e->getMessage()]);
+            DUMP("ACTION ERROR in AbstractController->run()");
+            die();
+            // $this->view->render('error', ['message' => $e->getMessage()]);
         }
     }
 
