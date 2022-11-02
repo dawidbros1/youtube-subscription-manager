@@ -5,11 +5,12 @@
 <div id = "manage" class="d-flex flex-wrap">
    <?php foreach ($user->getCategories() as $category): ?>
       <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xxl-2 position-relative">
-         <div class="item m-2 fw-bold"><?=$category->get('name')?></div>
+         <a href = "<?=$route->get("category.list", $category->get('id'))?>" class="item m-2 fw-bold"><?=$category->get('name')?></a>
 
          <img src = "<?=Assets::get("images/edit.png")?>"class = "edit-form-handle icon icon-edit">
          <img src = "<?=Assets::get("images/delete.png")?>"class = "delete-form-handle icon icon-delete">
       </div>
+
 
       <div class="center form-wrapper delete-form-wrapper d-none">
          <div id="information">Czy jesteś pewny, że chcesz usunąć grupę <span class="fw-bold"><?=$category->get('name')?></span></div>
