@@ -9,10 +9,12 @@ use Phantom\Model\AbstractModel;
 
 class Category extends AbstractModel
 {
+    private $channels = [];
     public $fillable = ['id', 'user', 'name'];
 
     public function delete(?int $id = null)
     {
+        $this->repository->deleteChannelsByCategoryId($this->id);
         parent::delete();
         Session::success("Grupa <b>" . $this->get('name') . "</b> została usunięta");
     }
@@ -22,5 +24,19 @@ class Category extends AbstractModel
         if (parent::update($toValidate, $validate) == false) {
             Session::error(Session::get('error:name:between', true));
         }
+    }
+
+    public function loadChannels()
+    {
+        $data = $this->repository->getChannels($this->get('id'));
+
+        foreach ($data as $channel) {
+            $this->channels[] = new Channel($channel, false);
+        }
+    }
+
+    public function getChannels()
+    {
+        return $this->channels;
     }
 }
