@@ -21,6 +21,7 @@ class GoogleClient
         $this->client->setApplicationName('API code samples');
     }
 
+    # Method reutrns object of class \Google_client
     public function get()
     {
         return $this->client;

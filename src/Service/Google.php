@@ -22,7 +22,7 @@ class Google
         $this->client = (new GoogleClient())->get();
         $this->youtube = (new YoutubeService($this->client));
     }
-
+    # Method sign in user
     public function login()
     {
         if ($access_token = Session::get('access_token')) {
@@ -33,27 +33,34 @@ class Google
 
         return null;
     }
+
+    # Method logout user
     public function logout()
     {
         Session::clear('access_token');
         $this->client->revokeToken();
     }
 
+    # Method returns link to sign in
     public function getGoogleLoginUrl()
     {
         return filter_var($this->client->createAuthUrl(), FILTER_SANITIZE_URL);
     }
 
+    # Method return GoogleClient
     public function getClient()
     {
         return $this->client;
     }
 
+    # Method return YoutubeService
     public function getYoutubeService()
     {
         return $this->youtube;
     }
 
+    # Method checks if token is set and valid
+    # if token is expired =>  refreshToken
     private function validateAccessToken($access_token)
     {
         $this->client->setAccessToken($access_token);
