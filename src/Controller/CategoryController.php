@@ -21,7 +21,7 @@ class CategoryController extends AbstractController
 
     public function listAction()
     {
-        View::set("Moje grupy", 'list');
+        View::set("Moje grupy", 'category/list');
 
         $youtube = $this->google->getYoutubeService();
         $category = $this->search();
@@ -74,7 +74,7 @@ class CategoryController extends AbstractController
     // Here we can edit and delete categories || go in category to adds subs to group
     public function manageAction()
     {
-        View::set("Panel zarządzania grupami", 'manage');
+        View::set("Panel zarządzania grupami", 'category/manage');
         // List all subs $user->getCategories()
         // Add icon to delete | hidden form to edit
 
@@ -84,8 +84,17 @@ class CategoryController extends AbstractController
     // Method shows videos from single group
     public function showAction()
     {
+        View::set("Filmy", 'category/show');
+
+        $youtube = $this->google->getYoutubeService();
         $category = $this->search();
-        return $this->render('category/show', ['category' => $category]);
+        $category->loadChannels();
+        $videos = $youtube->listVideos($category->getChannels());
+
+        return $this->render('category/show', [
+            'category' => $category,
+            'videos' => $videos->items ?? [],
+        ]);
     }
 
     public function deleteAction()
@@ -125,7 +134,6 @@ class CategoryController extends AbstractController
 
         return array_merge($items, $subscriptions->items);
     }
-
     private function getChannelsFromCategory($category, $youtube)
     {
         $channelsFromCategory = $category->getChannels();
