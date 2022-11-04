@@ -86,14 +86,22 @@ class CategoryController extends AbstractController
     {
         View::set("Filmy", 'category/show');
 
+        $flow = $this->request->getParam('flow', 'grid');
+
+        if ($flow != "grid") {
+            $flow = "list";
+        }
+
         $youtube = $this->google->getYoutubeService();
         $category = $this->search();
         $category->loadChannels();
         $videos = $youtube->listVideos($category->getChannels());
 
-        return $this->render('category/show', [
+        return $this->render('category/show/' . $flow, [
             'category' => $category,
-            'videos' => $videos->items ?? [],
+            'videos' => $videos,
+
+            'baseVideoUrl' => "https://www.youtube.com/watch?v=",
         ]);
     }
 
