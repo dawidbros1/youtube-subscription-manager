@@ -53,22 +53,13 @@ class YoutubeService
         foreach ($channels as $channel) {
             $result = $this->service->search->listSearch('snippet', [
                 'channelId' => $channel->channelId,
-                'maxResults' => 10, // get last 10 videos per canal
+                'maxResults' => 25, // get last 25 videos per canal
                 'order' => 'date',
                 'type' => "video",
             ]);
 
-            $videos[] = array_merge($videos, $result->items);
+            $videos = array_merge($videos, $result->items);
         }
-
-        dump($videos); //? Check if the video has an icon and a link from the video
-        die();
-
-        foreach ($videos as $video) {
-            $ids[] = $video->id->videoId;
-        }
-
-        $videos = $this->service->videos->listVideos('player', ['id' => $ids ?? []]);
 
         return $videos;
     }
