@@ -2,7 +2,7 @@
 The application allows you to place subscriptions in various directories
 
 ## Build with
-1. PHP 8.1.6
+1. PHP 7.4
 
 ## Features
 ...
