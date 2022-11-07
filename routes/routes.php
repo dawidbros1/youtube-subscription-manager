@@ -10,11 +10,12 @@ $route->register('', '/contact', 'contact');
 
 $route->group('category', '/category', [
     'create' => "/create",
+    'show' => "/video/{id}",
     'edit' => "/edit/{id}",
     'delete' => "/delete",
+
     'manage' => "/manage",
-    'show' => "/show/{id}",
-    'list' => "/list/subscriptions/{id}",
+    'list' => "/subscription/{id}",
 ]);
 
 $route->group('channel', '/channel', [
