@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 19 Gru 2021, 12:50
+-- Czas generowania: 07 Lis 2022, 09:42
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 7.4.13
 
@@ -18,23 +18,31 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `project`
+-- Baza danych: `youtube`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `users`
+-- Struktura tabeli dla tabeli `categories`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
-  `username` varchar(255) COLLATE utf8_polish_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_polish_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_polish_ci NOT NULL,
-  `avatar` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
-  `role` varchar(255) COLLATE utf8_polish_ci NOT NULL,
-  `created` datetime NOT NULL
+  `user` varchar(255) COLLATE utf8_polish_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_polish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `channels`
+--
+
+CREATE TABLE `channels` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `channelId` varchar(255) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
@@ -42,9 +50,15 @@ CREATE TABLE `users` (
 --
 
 --
--- Indeksy dla tabeli `users`
+-- Indeksy dla tabeli `categories`
 --
-ALTER TABLE `users`
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `channels`
+--
+ALTER TABLE `channels`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -52,9 +66,15 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT dla tabeli `users`
+-- AUTO_INCREMENT dla tabeli `categories`
 --
-ALTER TABLE `users`
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `channels`
+--
+ALTER TABLE `channels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
