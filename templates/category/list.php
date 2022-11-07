@@ -21,7 +21,7 @@
                <input type = "hidden" name = "category_id" value = "<?=$category->get('id')?>">
 
                <img src = "<?=$channel->snippet->thumbnails->default->url?>">
-               <button class="bg-success" type = "submit">DODAJ</button>
+               <button title = "<?=$channel->snippet->title?>"  class="bg-success" type = "submit">DODAJ</button>
             </form>
          </div>
       <?php endforeach?>
