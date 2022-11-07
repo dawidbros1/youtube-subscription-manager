@@ -75,9 +75,6 @@ class CategoryController extends AbstractController
     public function manageAction()
     {
         View::set("Panel zarządzania grupami", 'category/manage');
-        // List all subs $user->getCategories()
-        // Add icon to delete | hidden form to edit
-
         return $this->render('category/manage');
     }
 
@@ -99,7 +96,7 @@ class CategoryController extends AbstractController
 
         return $this->render('category/show/' . $flow, [
             'category' => $category,
-            'videos' => $videos,
+            'videos' => $this->sortVideoByDate($videos),
 
             'baseVideoUrl' => "https://www.youtube.com/watch?v=",
         ]);
@@ -107,17 +104,17 @@ class CategoryController extends AbstractController
 
     public function deleteAction()
     {
-        if ($this->request->isPost()) {
-            $category = $this->search();
+        if ($id = $this->request->isPost(['id'])) {
+            $category = $this->search($id);
             $category->delete();
         }
 
         return $this->redirect("category.manage");
     }
 
-    private function search()
+    private function search($id = null)
     {
-        $id = $this->request->getParam('id');
+        $id = $id ?? $this->request->getParam('id');
         $categories = $this->user->getCategories();
         $index = array_search($id, array_column($categories, 'id'));
 
@@ -184,5 +181,21 @@ class CategoryController extends AbstractController
         }
 
         return $output;
+    }
+
+    private function sortVideoByDate(array $videos = [])
+    {
+        for ($i = 0; $i < count($videos); $i++) {
+            for ($j = 0; $j < count($videos) - 1 - $i; $j++) {
+                $current = $videos[$j]->snippet->publishTime;
+                $next = $videos[$j + 1]->snippet->publishTime;
+
+                if ($current < $next) {
+                    list($videos[$j], $videos[$j + 1]) = array($videos[$j + 1], $videos[$j]);
+                }
+            }
+        }
+
+        return $videos;
     }
 }
