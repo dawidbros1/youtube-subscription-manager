@@ -2,7 +2,7 @@
 
 <div class = "mb-3">
    <div class = "fw-bold">Do czego służy aplikacja?</div>
-   <div class = "description"> Aplikacji służy do zarządzanie swoimi subskrypcjami w serwisie youtube.</div>
+   <div class = "description"> Aplikacja służy do zarządzania swoimi subskrypcjami w serwisie YouTube.</div>
 </div>
 
 <div class = "mb-3">
@@ -11,14 +11,14 @@
 </div>
 
 <div class = "mb-3">
-   <div class = "fw-bold">Podczas korzystania z serwisu youtube doświadczyłeś któregokolwiek z poniższych problemów?</div>
+   <div class = "fw-bold">Podczas korzystania z serwisu YouTube doświadczyłeś któregokolwiek z poniższych problemów?</div>
    <ul>
-      <li>Masz zbyt dużą liczbę subskrypcji</li>
-      <li>Przeglądanie nowych filmów od twórców zajmuje ci całą wieczność</li>
-      <li>Trudno ci odnaleźć filmy od konkretnych twórców</li>
-      <li>Chciałbyć ułatwić sobie przeglądania ulubionych kanałów</li>
+      <li>Masz zbyt dużą liczbę subskrypcji?</li>
+      <li>Przeglądanie nowych filmów od twórców zajmuje ci całą wieczność?</li>
+      <li>Trudno ci odnaleźć filmy od konkretnych twórców?</li>
+      <li>Chciałbyś ułatwić sobie przeglądania ulubionych kanałów?</li>
    </ul>
-   <div>Dotknął cię którykolwiek z powyższych problemów? Jeżeli tak to aplikacja jest właśnie dla ciebie!</div>
+   <div>Dotknął Cię którykolwiek z powyższych problemów? Jeżeli tak, to aplikacja jest właśnie dla ciebie!</div>
 </div>
 
 <div>
@@ -26,7 +26,7 @@
    <ul>
       <li>Tworzenie własnych grup tematycznych</li>
       <li>Segregacja swoich subskrypcji</li>
-      <li>Przyjemny intefejs graficzny</li>
+      <li>Przyjemny interfejs graficzny</li>
       <li>Szybki dostęp do wybranej tematyki</li>
    </ul>
 </div>
