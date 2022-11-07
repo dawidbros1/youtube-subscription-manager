@@ -15,7 +15,8 @@
       <div class="center form-wrapper delete-form-wrapper d-none">
          <div id="information">Czy jesteś pewny, że chcesz usunąć grupę <span class="fw-bold"><?=$category->get('name')?></span></div>
 
-         <form class="d-flex flex-wrap" method="post" action = "<?=$route->get('category.delete', $category->get('id'))?>">
+         <form class="d-flex flex-wrap" method="post" action = "<?=$route->get('category.delete')?>">
+            <input type = "hidden" name = "id" value = "<?=$category->get('id')?>">
             <button class="col-5 btn btn-success cancel" type = "button">Anuluj</button>
             <button class="col-5 offset-2 btn btn-danger" type = "submit">TAK</button>
          </form>
@@ -25,7 +26,7 @@
          <h2 class="text-center fw-bold fs-5">EDYCJA GRUPY</h2>
 
          <form class="d-flex flex-wrap" method="post" action = "<?=$route->get('category.edit', $category->get('id'))?>">
-            <input class="form-control mb-2" type = "text" name ="name" value = "<?=$category->get('name')?>" placeholder="nazwa grupy">
+            <input class="form-control mb-2" type = "text" name ="name" value = "<?=$category->get('name')?>" placeholder="Nazwa grupy">
             <button class="col-5 btn btn-primary cancel" type = "button">Anuluj</button>
             <button class="col-5 offset-2 btn btn-success" type = "submit">Zapisz zmiany</button>
          </form>
