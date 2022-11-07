@@ -16,7 +16,6 @@ use Phantom\Helper\Request;
 use Phantom\Helper\Session;
 use Phantom\Model\AbstractModel;
 use Phantom\Model\Config;
-use Phantom\Model\Mail;
 use Phantom\Model\Route;
 use Phantom\RedirectToRoute;
 use Phantom\Repository\AbstractRepository;
@@ -30,7 +29,6 @@ abstract class AbstractController extends Validator
     protected $request;
     protected $view;
     protected $user = null;
-    protected $mail;
     private $userModel;
     protected $model;
     protected $google;
@@ -49,7 +47,6 @@ abstract class AbstractController extends Validator
         AbstractRepository::initConfiguration(self::$config->get('db'));
 
         $this->google = new Google(self::$config->get('project.location'), self::$route);
-        $this->mail = new Mail();
 
         $this->user = $this->google->login();
         $this->request = $request;

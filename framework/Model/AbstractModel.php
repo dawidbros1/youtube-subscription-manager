@@ -20,7 +20,6 @@ abstract class AbstractModel
     {
         self::$validator = new Validator();
         self::$config = $config;
-        self::$hashMethod = $config->get("default.hash.method");
     }
 
     # Constructor sets object properties with $data
@@ -188,12 +187,6 @@ abstract class AbstractModel
                 $this->$key = htmlentities((string) $this->$key);
             }
         }
-    }
-
-    # Method hash parameter
-    public function hash($param, $method = null): string
-    {
-        return hash($method ?? self::$hashMethod, $param);
     }
 
     # Method hash name of file to create unique file name
