@@ -49,7 +49,7 @@ use Phantom\Component\Component;
             <div class="group">
                <form id="create-category-form" action="<?=$route->get('category.create')?>" method="post">
                   <div class = "d-flex flex-wrap">
-                     <input class="col-11 col-sm-10" name="name" type = "text" placeholder="Nazwa grupu" value = "<?=$name?>">
+                     <input class="col-11 col-sm-10" name="name" type = "text" placeholder="Nazwa grupy" value = "<?=$name?>">
                      <button class="col-1 col-sm-2 btn btn-primary fw-bold" type = "submit">+</button>
                   </div>
                </form>
