@@ -53,7 +53,7 @@ class YoutubeService
         foreach ($channels as $channel) {
             $result = $this->service->search->listSearch('snippet', [
                 'channelId' => $channel->channelId,
-                'maxResults' => 25, // get last 25 videos per canal
+                'maxResults' => 50, // get last 50 videos per canal
                 'order' => 'date',
                 'type' => "video",
             ]);
