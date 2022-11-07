@@ -17,6 +17,13 @@ The application allows you to place subscriptions in various directories. Projec
 5. Configure your `./config/config.php` file
 6. Import tables from file `./sql/database.sql` to your database
 
+## YouTube Data API
+1. Obtaining [authorization credentials](https://developers.google.com/youtube/registering_an_application) (OAuth 2.0)
+2. Set `Authorized redirect URIs` on `domain.com/authorization`
+3. Download and place keys in root directory with name like `client_secret.json`,
+
+[YouTube Data API Overview](https://developers.google.com/youtube/v3/getting-started)
+
 ## Screenshots
 ![](docs/images/homepage.png)
 
