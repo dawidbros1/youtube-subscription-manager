@@ -19,6 +19,7 @@ class CategoryController extends AbstractController
         $this->forLogged();
     }
 
+    # Method shows all subscriptions and subscriptions for current category
     public function listAction()
     {
         View::set("Moje grupy", 'category/list');
@@ -42,7 +43,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    // Method create category => ONLY POST => Form in layout (main) in sidebar
+    # Method create category => ONLY POST => Form in layout (main) in sidebar
     public function createAction()
     {
         if ($name = $this->request->isPost(['name'])) {
@@ -59,7 +60,7 @@ class CategoryController extends AbstractController
         $this->redirectToLastPage();
     }
 
-    // Method edit group name => ONLY POST => Form in category.manage
+    # Method edit group name => ONLY POST => Form in category.manage
     public function editAction()
     {
         if ($name = $this->request->isPost(['name'])) {
@@ -71,14 +72,14 @@ class CategoryController extends AbstractController
         return $this->redirect('category.manage');
     }
 
-    // Here we can edit and delete categories || go in category to adds subs to group
+    # Here we can edit and delete categories || go in category to adds subs to group
     public function manageAction()
     {
         View::set("Panel zarządzania grupami", 'category/manage');
         return $this->render('category/manage');
     }
 
-    // Method shows videos from single group
+    # Method shows videos from single group
     public function showAction()
     {
         View::set("Filmy", 'category/show');
@@ -102,6 +103,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    # Method deletes category with channels
     public function deleteAction()
     {
         if ($id = $this->request->isPost(['id'])) {
@@ -112,6 +114,7 @@ class CategoryController extends AbstractController
         return $this->redirect("category.manage");
     }
 
+    # Method find category by ID
     private function search($id = null)
     {
         $id = $id ?? $this->request->getParam('id');
@@ -126,6 +129,7 @@ class CategoryController extends AbstractController
         return $categories[$index];
     }
 
+    # Method returns all subscriptions for logged in user
     private function getSubscriptions($youtube)
     {
         $items = [];
@@ -139,6 +143,8 @@ class CategoryController extends AbstractController
 
         return array_merge($items, $subscriptions->items);
     }
+
+    # Method change local class channel to YouTube class channel and returns it
     private function getChannelsFromCategory($category, $youtube)
     {
         $channelsFromCategory = $category->getChannels();
@@ -153,6 +159,7 @@ class CategoryController extends AbstractController
         return $channels;
     }
 
+    # Method removes from all subscriptions, subscription which are in our category
     private function difference($items, $channels)
     {
         $ids = array_column($channels->items, 'id');
@@ -166,6 +173,7 @@ class CategoryController extends AbstractController
         return $items;
     }
 
+    # Method sorts channels
     private function sortChannels($category, $channels)
     {
         $channelsFromCategory = $category->getChannels();
@@ -183,6 +191,7 @@ class CategoryController extends AbstractController
         return $output;
     }
 
+    # Method sorts videos by date
     private function sortVideoByDate(array $videos = [])
     {
         for ($i = 0; $i < count($videos); $i++) {
