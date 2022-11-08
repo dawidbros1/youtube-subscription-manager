@@ -12,8 +12,7 @@ use Phantom\Component\Component;
     'link' => $route->get('category.show', $category->get('id')),
 ])?>
 
-
-<div id = "grid" class="d-flex flex-wrap">
+<div id = "grid" class="d-flex flex-wrap scroll" style="max-height: 2000px;">
    <?php foreach ($videos as $video): ?>
       <div class="col-6 col-sm-6 col-md-4 col-xl-3 col-xxl-2 item mb-2">
          <div class="mx-1">
@@ -27,3 +26,5 @@ use Phantom\Component\Component;
       </div>
    <?php endforeach;?>
 </div>
+
+<script>initScroll()</script>

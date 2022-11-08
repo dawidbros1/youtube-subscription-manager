@@ -83,3 +83,7 @@ header .icons img{
    max-height: 20px;
    overflow: hidden;
 }
+
+.scroll{
+   overflow: hidden;
+}
