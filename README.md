@@ -1,5 +1,5 @@
 # Youtube subscription manager
-The application allows you to place subscriptions in various directories. Project use starer files form [php-start](https://github.com/dawidbros1/php-start)
+It is an application that allows you to segregate YouTube subscriptions by adding them to created groups. Project use starer files form [php-start](https://github.com/dawidbros1/php-start)
 
 ## Build with
 1. PHP 7.4
