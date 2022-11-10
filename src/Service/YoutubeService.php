@@ -37,12 +37,18 @@ class YoutubeService
             "pageToken" => $pageToken,
         ]);
     }
-    # Method returns channels by IDS
-    public function getChannels(array $ids)
+    # Form local class Channel to YouTube class Channel
+    public function toggleChannels(array $channels)
     {
-        return $this->service->channels->listChannels('id,snippet,contentDetails', [
-            'id' => $ids,
-        ]);
+        $ids = array_column($channels, 'channelId');
+
+        if (empty($ids)) {
+            return [];
+        } else {
+            return $this->service->channels->listChannels('id,snippet,contentDetails', [
+                'id' => $ids,
+            ]);
+        }
     }
 
     # Method returns videos form channels
