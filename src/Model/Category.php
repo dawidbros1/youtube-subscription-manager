@@ -12,6 +12,11 @@ class Category extends AbstractModel
     private $channels = [];
     public $fillable = ['id', 'user', 'name'];
 
+    public function channelsFromCategoryIds($ids)
+    {
+        return $this->repository->getChannelsByCategoryIds($ids);
+    }
+
     # Method delete category with content
     public function delete(?int $id = null)
     {
@@ -30,7 +35,7 @@ class Category extends AbstractModel
     # Method get channel from database
     public function loadChannels()
     {
-        $data = $this->repository->getChannels($this->get('id'));
+        $data = $this->repository->getChannelsByCategoryId($this->get('id'));
 
         foreach ($data as $channel) {
             $this->channels[] = new Channel($channel, false);
