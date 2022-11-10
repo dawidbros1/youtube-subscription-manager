@@ -12,28 +12,28 @@ use Phantom\View;
 
 class CategoryController extends AbstractController
 {
+    private $youtube;
     public function __construct(Request $request)
     {
         parent::__construct($request);
         $this->model = new Category();
+        $this->youtube = $this->google->getYoutubeService();
         $this->forLogged();
     }
 
     # Method shows all subscriptions and subscriptions for current category
     public function listAction()
     {
-        View::set("Moje grupy", 'category/list');
+        View::set("Moje grupa", 'category/list');
 
-        $youtube = $this->google->getYoutubeService();
-        $category = $this->search();
-        $category->loadChannels();
+        $category = $this->search(null, true); // get current category with channels
+        $channelsFromCategory = $this->youtube->toggleChannels($category->getChannels()); // returns class channel from YouTube
 
-        $channelsFromCategory = $this->getChannelsFromCategory($category, $youtube);
-        $subscriptions = $this->getSubscriptions($youtube);
-
-        if (!empty($channelsFromCategory)) {
-            $subscriptions = $this->difference($subscriptions, $channelsFromCategory);
-        }
+        // remove channels in user->categories from all subscriptions
+        $subscriptions = $this->getSubscriptions();
+        $ids = array_column($this->user->getCategories(), 'id');
+        $channels = $this->model->channelsFromCategoryIds($ids);
+        $subscriptions = $this->difference($subscriptions, $channels);
 
         return $this->render("category/list", [
             'category' => $category,
@@ -83,17 +83,10 @@ class CategoryController extends AbstractController
     public function showAction()
     {
         View::set("Filmy", 'category/show');
+        $flow = $this->request->getParam('flow', 'grid') == "grid" ? "grid" : "list";
 
-        $flow = $this->request->getParam('flow', 'grid');
-
-        if ($flow != "grid") {
-            $flow = "list";
-        }
-
-        $youtube = $this->google->getYoutubeService();
-        $category = $this->search();
-        $category->loadChannels();
-        $videos = $youtube->listVideos($category->getChannels());
+        $category = $this->search(null, true);
+        $videos = $this->youtube->listVideos($category->getChannels());
 
         return $this->render('category/show/' . $flow, [
             'category' => $category,
@@ -114,8 +107,8 @@ class CategoryController extends AbstractController
         return $this->redirect("category.manage");
     }
 
-    # Method find category by ID
-    private function search($id = null)
+    # Method returns category by id
+    private function search($id = null, $relation = false)
     {
         $id = $id ?? $this->request->getParam('id');
         $categories = $this->user->getCategories();
@@ -126,58 +119,49 @@ class CategoryController extends AbstractController
             $this->redirect("home", [], true);
         }
 
-        return $categories[$index];
+        $category = $categories[$index];
+
+        if ($relation == true) {
+            $category->loadChannels();
+        }
+
+        return $category;
     }
 
     # Method returns all subscriptions for logged in user
-    private function getSubscriptions($youtube)
+    private function getSubscriptions()
     {
         $items = [];
-        $subscriptions = $youtube->listSubscriptions();
+        $subscriptions = $this->youtube->listSubscriptions();
 
         while ($subscriptions->nextPageToken != null) {
             $items = array_merge($items, $subscriptions->items);
             $pageToken = $subscriptions->nextPageToken;
-            $subscriptions = $youtube->listSubscriptions($pageToken);
+            $subscriptions = $this->youtube->listSubscriptions($pageToken);
         }
 
         return array_merge($items, $subscriptions->items);
     }
 
-    # Method change local class channel to YouTube class channel and returns it
-    private function getChannelsFromCategory($category, $youtube)
+    # Method removes from all subscriptions, subscription which are in our categories
+    private function difference($subscriptions, $channels)
     {
-        $channelsFromCategory = $category->getChannels();
-        $ids = array_column($channelsFromCategory, 'channelId');
+        $ids = array_column($channels, 'channelId');
 
-        if (empty($ids)) {
-            return [];
-        }
-
-        $channels = $youtube->getChannels($ids);
-
-        return $channels;
-    }
-
-    # Method removes from all subscriptions, subscription which are in our category
-    private function difference($items, $channels)
-    {
-        $ids = array_column($channels->items, 'id');
-
-        foreach ($items as $key => $item) {
+        foreach ($subscriptions as $key => $item) {
             if (in_array($item->snippet->resourceId->channelId, $ids)) {
-                unset($items[$key]);
+                unset($subscriptions[$key]);
             }
         }
 
-        return $items;
+        return $subscriptions;
     }
 
     # Method sorts channels
     private function sortChannels($category, $channels)
     {
-        $channelsFromCategory = $category->getChannels();
-        $ids = array_column($channelsFromCategory, 'channelId');
+        $localChannels = $category->getChannels();
+        $ids = array_column($localChannels, 'channelId');
         $output = [];
 
         for ($i = 0; $i < count($channels->items); $i++) {
