@@ -71,6 +71,15 @@ class Google
             $newAccessToken = $this->client->getAccessToken();
             $newAccessToken['refresh_token'] = $refreshToken;
             $this->client->setAccessToken($newAccessToken);
+
+            //! unknown error => token is not refresh => safe logout
+            if ($this->client->getAccessToken()['access_token'] == Session::get('access_token')['access_token']) {
+                header("Location: " . $this->url);
+                Session::clear('access_token');
+                Session::error("UPS! Coś poszło nie tak! Prosimy o ponowne zalogowanie się");
+                exit();
+            }
+
             Session::set('access_tonen', $newAccessToken);
         }
     }
