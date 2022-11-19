@@ -82,10 +82,9 @@ class CategoryController extends AbstractController
     # Method shows videos from single group
     public function showAction()
     {
-        View::set("Filmy", 'category/show');
         $flow = $this->request->getParam('flow', 'grid') == "grid" ? "grid" : "list";
-
         $category = $this->search(null, true);
+        View::set($category->get('name'), 'category/show');
         $videos = $this->youtube->listVideos($category->getChannels());
 
         return $this->render('category/show/' . $flow, [
