@@ -17,7 +17,6 @@ $config = require_once 'config/config.php';
 
 $location = $config->get('project.location');
 $route = require_once 'routes/routes.php'; // variable $location is require
-
 use App\Helper\Assets;
 use Phantom\Controller\AbstractController;
 use Phantom\Exception\AppException;
@@ -58,3 +57,9 @@ try {
     echo '<h1>Wystąpił błąd w aplikacji </h1>';
     dump($e);
 }
+
+/*
+TODO: Error wyżej
+TODO: Sortowanie filmów
+TODO: Szybki powrót na górę
+ */

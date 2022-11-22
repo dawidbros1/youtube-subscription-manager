@@ -100,7 +100,7 @@ abstract class AbstractController extends Validator
     {
         if ($this->user != null) {
             Session::error("Strona, na którą próbowałeś się dostać, jest dostępna wyłącznie dla użytkowników nie zalogowanych.");
-            $this->redirect('home');
+            $this->redirect('home', [], true);
         }
     }
 
@@ -109,7 +109,7 @@ abstract class AbstractController extends Validator
     {
         if ($this->user == null) {
             Session::error("Strona, na którą próbowałeś się dostać, wymaga zalogowania się");
-            $this->redirect('auth.login');
+            $this->redirect('home', [], true);
         }
     }
 
