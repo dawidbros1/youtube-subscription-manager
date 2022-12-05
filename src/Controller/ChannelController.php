@@ -35,7 +35,7 @@ class ChannelController extends AbstractController
             }
         }
 
-        $this->redirectToLastPage();
+        $this->redirectToLastPage("#notCategorized");
     }
 
     public function deleteAction()
