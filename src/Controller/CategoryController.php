@@ -28,12 +28,14 @@ class CategoryController extends AbstractController
 
         $category = $this->search(null, true); // get current category with channels
         $channelsFromCategory = $this->youtube->toggleChannels($category->getChannels()); // returns class channel from YouTube
-
         // remove channels in user->categories from all subscriptions
         $subscriptions = $this->getSubscriptions();
         $ids = array_column($this->user->getCategories(), 'id');
         $channels = $this->model->channelsFromCategoryIds($ids);
         $subscriptions = $this->difference($subscriptions, $channels);
+
+        $channelsFromCategory = $this->createShortDescription($channelsFromCategory->items);
+        $subscriptions = $this->createShortDescription($subscriptions);
 
         return $this->render("category/list", [
             'category' => $category,
@@ -163,8 +165,8 @@ class CategoryController extends AbstractController
         $ids = array_column($localChannels, 'channelId');
         $output = [];
 
-        for ($i = 0; $i < count($channels->items); $i++) {
-            foreach ($channels->items as $channel) {
+        for ($i = 0; $i < count($channels); $i++) {
+            foreach ($channels as $channel) {
                 if ($channel->id == $ids[$i]) {
                     $output[] = $channel;
                 }
@@ -189,5 +191,21 @@ class CategoryController extends AbstractController
         }
 
         return $videos;
+    }
+
+    private function createShortDescription($channels)
+    {
+        foreach ($channels as $key => $channel) {
+            $description = $channel->snippet->description;
+            $shortDescription = substr($description, 0, 250);
+
+            if (strlen($description) >= 250) {
+                $shortDescription = preg_replace('/\W\w+\s*(\W*)$/', '$1', $shortDescription);
+            }
+
+            $channels[$key]->snippet->shortDescription = $shortDescription;
+        }
+
+        return $channels;
     }
 }
