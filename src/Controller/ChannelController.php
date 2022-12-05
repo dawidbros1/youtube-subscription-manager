@@ -19,7 +19,7 @@ class ChannelController extends AbstractController
         $this->forLogged();
     }
 
-    // Method create category => ONLY POST => Form in layout (main) in sidebar
+    // Method adds channel to category
     public function createAction()
     {
         if ($data = $this->request->isPost(['category_id', 'channelId'])) {
