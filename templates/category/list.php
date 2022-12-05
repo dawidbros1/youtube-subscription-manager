@@ -12,7 +12,7 @@
              <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
                <div class="row">
                   <div class="title col-12 fw-bold mb-2"><?=$channel->snippet->title?></div>
-                  <div class="col-12"><?=$channel->snippet->description;?></div>
+                  <div class="col-12"><?=$channel->snippet->shortDescription;?></div>
                </div>
             </div>
             <div class = "col-2 col-sm-3 col-md-2 col-xl-1">
@@ -34,7 +34,7 @@
              <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
                <div class="row">
                   <div class="title col-12 fw-bold mb-2"><?=$channel->snippet->title?></div>
-                  <div class="col-12"><?=$channel->snippet->description?></div>
+                  <div class="col-12"><?=$channel->snippet->shortDescription?></div>
                </div>
             </div>
             <div class = "col-2 col-sm-3 col-md-2 col-xl-1">
