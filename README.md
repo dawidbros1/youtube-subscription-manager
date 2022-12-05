@@ -37,6 +37,8 @@ It is an application that allows you to segregate YouTube subscriptions by addin
 
 ![](docs/images/list.png)
 
+![](docs/images/list_notCategorized.png)
+
 ![](docs/images/show_grid.png)
 
 ![](docs/images/show_list.png)
