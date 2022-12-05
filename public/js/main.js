@@ -33,3 +33,26 @@ function hideWrappers(wrappers) {
         wrappers[i].classList.add('d-none');
     }
 }
+
+// Method is use in view category/list
+function initToggleList() {
+    var handles = document.getElementsByClassName("list-handle");
+    var wrappers = document.getElementsByClassName("list-wrapper")
+
+    for (let i = 0; i < handles.length; i++) {
+        let handle = handles[i];
+
+        handle.addEventListener('click', () => {
+            for (let j = 0; j < wrappers.length; j++) {
+                wrappers[j].classList.add('d-none');
+            }
+
+            wrappers[i].classList.remove('d-none');
+        })
+    }
+
+    var address = window.location.href;
+    var array = address.split('#');
+
+    if (array.length > 1 && array[1] == "notCategorized") handles[1].click()
+}

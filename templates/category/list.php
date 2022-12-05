@@ -1,29 +1,53 @@
+
 <div id = "list">
-   <header class="mb-2 fw-bold"><?=$category->get('name')?></header>
-   <div class="row">
-      <?php foreach ($channelsFromCategory as $key => $channel): ?>
-         <div class="col-4 col-sm-3 col-md-2 col-xl-1 col-xxl-1">
-            <form class="position-relative" action = "<?=$route->get('channel.delete')?>" method = "post">
-               <input type = "hidden" name = "id" value = "<?=$channels[$key]->get('id')?>">
-               <img src = "<?=$channel->snippet->thumbnails->default->url?>">
-               <button class="bg-danger" type = "submit">USUŃ</button>
-            </form>
-         </div>
-      <?php endforeach?>
+   <div class = "row header">
+      <div class="col-6 list-handle border-end"><?=$category->get('name')?></div>
+      <div class="col-6 list-handle border-start">Nieskategoryzowane</div>
    </div>
-
-   <header class="mb-2 fw-bold">Moje subskrypcje</header>
-   <div class="row">
-      <?php foreach ($subscriptions as $channel): ?>
-         <div class="col-4 col-sm-3 col-md-2 col-xl-1 col-xxl-1">
-            <form class="position-relative" action = "<?=$route->get('channel.create')?>" method = "post">
-               <input type = "hidden" name = "channelId" value = "<?=$channel->snippet->resourceId->channelId?>">
-               <input type = "hidden" name = "category_id" value = "<?=$category->get('id')?>">
-
-               <img src = "<?=$channel->snippet->thumbnails->default->url?>">
-               <button title = "<?=$channel->snippet->title?>"  class="bg-success" type = "submit">DODAJ</button>
-            </form>
+   <!-- SUBSKRYPCJE Z GRUPY -->
+   <div class = "list-wrapper">
+      <?php foreach ($channelsFromCategory as $key => $channel): ?>
+         <div class="row list-item">
+            <img class = "avatar col-3 col-md-2 col-xl-1" src = "<?=$channel->snippet->thumbnails->default->url?>">
+             <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
+               <div class="row">
+                  <div class="title col-12 fw-bold mb-2"><?=$channel->snippet->title?></div>
+                  <div class="col-12"><?=$channel->snippet->description;?></div>
+               </div>
+            </div>
+            <div class = "col-2 col-sm-3 col-md-2 col-xl-1">
+               <form action = "<?=$route->get('channel.delete')?>" method = "post">
+                  <input type = "hidden" name = "id" value = "<?=$channels[$key]->get('id')?>">
+                  <button class="btn btn-danger" type = "submit">USUŃ</button>
+               </form>
+            </div>
          </div>
-      <?php endforeach?>
+
+      <?php endforeach;?>
+   </div>
+   <!-- POZOSTAŁE SUBSKRYPCJE -->
+   <div class = "list-wrapper d-none">
+
+   <?php foreach ($subscriptions as $channel): ?>
+         <div class="row list-item">
+            <img class = "avatar col-3 col-md-2 col-xl-1" src = "<?=$channel->snippet->thumbnails->default->url?>">
+             <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
+               <div class="row">
+                  <div class="title col-12 fw-bold mb-2"><?=$channel->snippet->title?></div>
+                  <div class="col-12"><?=$channel->snippet->description?></div>
+               </div>
+            </div>
+            <div class = "col-2 col-sm-3 col-md-2 col-xl-1">
+               <form action = "<?=$route->get('channel.create')?>" method = "post">
+                  <input type = "hidden" name = "channelId" value = "<?=$channel->snippet->resourceId->channelId?>">
+                  <input type = "hidden" name = "category_id" value = "<?=$category->get('id')?>">
+                  <button class="btn btn-success" type = "submit">DODAJ</button>
+               </form>
+            </div>
+         </div>
+
+      <?php endforeach;?>
    </div>
 </div>
+
+<script>initToggleList();</script>
