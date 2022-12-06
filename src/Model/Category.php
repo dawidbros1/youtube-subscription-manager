@@ -12,7 +12,7 @@ class Category extends AbstractModel
     private $channels = [];
     public $fillable = ['id', 'user', 'name'];
 
-    public function channelsFromCategoryIds($ids)
+    public function getChannelsByCategoryIds($ids)
     {
         return $this->repository->getChannelsByCategoryIds($ids);
     }

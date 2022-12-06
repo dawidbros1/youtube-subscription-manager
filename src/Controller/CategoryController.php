@@ -24,23 +24,22 @@ class CategoryController extends AbstractController
     # Method shows all subscriptions and subscriptions for current category
     public function listAction()
     {
-        View::set("Moje grupa", 'category/list');
+        $category = $this->search(null, true); // get current category with local channels
+        View::set($category->get('name') . " - Zarządzanie grupą", 'category/list');
 
-        $category = $this->search(null, true); // get current category with channels
-        $channelsFromCategory = $this->youtube->toggleChannels($category->getChannels()); // returns class channel from YouTube
-        // remove channels in user->categories from all subscriptions
-        $subscriptions = $this->getSubscriptions();
-        $ids = array_column($this->user->getCategories(), 'id');
-        $channels = $this->model->channelsFromCategoryIds($ids);
-        $subscriptions = $this->difference($subscriptions, $channels);
+        $youtubeChannels = $this->youtube->getChannels($category->getChannels())->items; // swap [local channel] to [YouTube channel] class
+        $youtubeChannels = $this->createShortDescription($youtubeChannels);
 
-        $channelsFromCategory = $this->createShortDescription($channelsFromCategory->items);
+        $subscriptions = $this->getSubscriptions(); // all my subscriptions
+        $ids = array_column($this->user->getCategories(), 'id'); // ids of user categories
+        $localChannels = $this->model->getChannelsByCategoryIds($ids); // get all local channels for current user
+        $subscriptions = $this->difference($subscriptions, $localChannels); // from all subs remove user channels
         $subscriptions = $this->createShortDescription($subscriptions);
 
         return $this->render("category/list", [
             'category' => $category,
-            'channelsFromCategory' => $this->sortChannels($category, $channelsFromCategory),
-            'subscriptions' => $subscriptions,
+            'subscriptionInCategory' => $this->sortChannels($category, $youtubeChannels),
+            'allMySubscriptions' => $subscriptions,
             'channels' => $category->getChannels(),
         ]);
     }

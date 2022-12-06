@@ -6,7 +6,7 @@
    </div>
    <!-- SUBSKRYPCJE Z GRUPY -->
    <div class = "list-wrapper">
-      <?php foreach ($channelsFromCategory as $key => $channel): ?>
+      <?php foreach ($subscriptionInCategory as $key => $channel): ?>
          <div class="row list-item">
             <img class = "avatar col-3 col-md-2 col-xl-1" src = "<?=$channel->snippet->thumbnails->default->url?>">
              <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
@@ -28,7 +28,7 @@
    <!-- POZOSTAŁE SUBSKRYPCJE -->
    <div class = "list-wrapper d-none">
 
-   <?php foreach ($subscriptions as $channel): ?>
+   <?php foreach ($allMySubscriptions as $channel): ?>
          <div class="row list-item">
             <img class = "avatar col-3 col-md-2 col-xl-1" src = "<?=$channel->snippet->thumbnails->default->url?>">
              <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">

@@ -38,7 +38,7 @@ class YoutubeService
         ]);
     }
     # Form local class Channel to YouTube class Channel
-    public function toggleChannels(array $channels)
+    public function getChannels(array $channels)
     {
         $ids = array_column($channels, 'channelId');
 
