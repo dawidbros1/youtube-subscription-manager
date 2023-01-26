@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Phantom\Validator;
 
@@ -8,6 +8,14 @@ use Phantom\Helper\Session;
 
 class Validator
 {
+    private $data;
+    private $rules;
+    public function __construct($data, $rules)
+    {
+        $this->data = $data;
+        $this->rules = $rules;
+    }
+
     # Method check if string has length between $min and $max
     protected function strlenBetween(string $variable, int $min, int $max)
     {
@@ -38,37 +46,43 @@ class Validator
         return true;
     }
 
+    public function validatePassword()
+    {
+        if (array_key_exists('password', $this->data) && array_key_exists('repeat_password', $this->data)) {
+            if ($this->data['password'] != $this->data['repeat_password']) {
+                Session::set("error:password:same", "Hasła nie są jednakowe");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     # Method validate $data
     # array $data: [
     #   'username' => "abc"
     #   'email' => "boom@example.com"
     # ]
     # $rules: object $rules
-    public function validate(array $data, $rules)
+    public function validate()
     {
-        $types = array_keys($data);
-
-        # password validate
-        if (array_key_exists('password', $data) && array_key_exists('repeat_password', $data)) {
-            if ($data['password'] != $data['repeat_password']) {
-                Session::set("error:password:same", "Hasła nie są jednakowe");
-                $ok = false;
-            }
-        }
+        $types = array_keys($this->data);
 
         foreach ($types as $type) {
-            if (!$rules->hasType($type)) {continue;}
+            if (!$this->rules->hasType($type)) {
+                continue;
+            }
 
-            $rules->setDefaultType($type);
-            $input = $data[$type];
+            $this->rules->setDefaultType($type);
+            $input = $this->data[$type];
 
-            foreach (array_keys($rules->getType()) as $rule) {
-                $value = $rules->value($rule);
-                $message = $rules->message($rule);
+            foreach (array_keys($this->rules->getType()) as $rule) {
+                $value = $this->rules->value($rule);
+                $message = $this->rules->message($rule);
 
                 if ($rule == "between") {
-                    $min = $rules->value($rule)['min'];
-                    $max = $rules->value($rule)['max'];
+                    $min = $this->rules->value($rule)['min'];
+                    $max = $this->rules->value($rule)['max'];
 
                     if ($this->strlenBetween($input, $min - 1, $max + 1) == false) {
                         $ok = $this->setError($type, $rule, $message);
@@ -106,7 +120,7 @@ class Validator
     }
 
     # Method to validate image
-    public function validateImage($FILE, $rules, $type)
+    public function validateImage($FILE, $type)
     {
         $uploadOk = 1;
 
@@ -122,20 +136,20 @@ class Validator
             return 0;
         }
 
-        $rules->setDefaultType($type);
+        $this->rules->setDefaultType($type);
 
-        if ($rules->typeHasRules(['maxSize'])) {
-            if (($FILE["size"] >= $rules->value('maxSize')) && $uploadOk) {
-                Session::set('error:file:maxSize', $rules->message('maxSize'));
+        if ($this->rules->typeHasRules(['maxSize'])) {
+            if (($FILE["size"] >= $this->rules->value('maxSize')) && $uploadOk) {
+                Session::set('error:file:maxSize', $this->rules->message('maxSize'));
                 $uploadOk = 0;
             }
         }
 
-        if ($rules->typeHasRules(['types'])) {
+        if ($this->rules->typeHasRules(['types'])) {
             $type = strtolower(pathinfo($FILE['name'], PATHINFO_EXTENSION));
 
-            if (!in_array($type, $rules->value('types'))) {
-                Session::set('error:file:types', $rules->message('types'));
+            if (!in_array($type, $this->rules->value('types'))) {
+                Session::set('error:file:types', $this->rules->message('types'));
                 $uploadOk = 0;
             }
         }

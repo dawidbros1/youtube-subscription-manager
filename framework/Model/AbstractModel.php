@@ -1,188 +1,73 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Phantom\Model;
 
-use Phantom\Exception\AppException;
 use Phantom\Helper\Session;
-use Phantom\Validator\Validator;
+use Phantom\Query\QueryModel;
 
-abstract class AbstractModel
+abstract class AbstractModel extends QueryModel
 {
-    protected static $validator = null;
-    protected static $hashMethod = null;
-    protected static $config;
-    protected $rules;
-    protected $repository;
-    public $fillable;
-    public static function initConfiguration(Config $config)
+    protected static Config $config;
+
+    public static function initConfiguration($config)
     {
-        self::$validator = new Validator();
         self::$config = $config;
     }
 
-    # Constructor sets object properties with $data
-    # Constructor can create $rules and $repository if (rulesitory == true)
-    # Constructor can get $rules and $repository from other model
-    # rulesitory => Rules and Repository
-    public function __construct(array $data = [], bool $rulesitory = true, ?string $model = null)
+    public function __construct(array $data = [])
     {
-        if ($rulesitory == true) {
-            $namaspace = explode("\\", get_class($this));
-
-            $namaspace[2] = $model ?? $namaspace[2];
-
-            $rules = $namaspace[0] . "\Rules\\" . $namaspace[2] . "Rules";
-            $repository = $namaspace[0] . "\Repository\\" . $namaspace[2] . "Repository";
-
-            $this->rules = new $rules;
-            $this->repository = new $repository;
-        }
-
-        $this->setArray($data);
+        $this->set($data);
     }
 
-    # Method sets single property
-    public function set(string $property, $value)
+    public function set($data)
     {
-        if ($this->propertyExists($property)) {
-            $this->$property = $value;
-        }
-    }
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
+                $method = $this->convertToCamelCase('set' . ucfirst($key));
 
-    # Method sets a lot of properties
-    public function setArray(array $data)
-    {
-        foreach ($data as $key => $value) {
-            if (in_array($key, $this->fillable)) {
-                $this->$key = $value;
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
             }
-        }
-    }
-
-    # Method return value of single property
-    public function get(string $property)
-    {
-        if ($this->propertyExists($property)) {
-            return $this->$property;
         }
     }
 
     # Method return values of a lot of properties
-    public function getArray(array $array)
+    public function _getData(array $properties = [])
     {
-        $properties = get_object_vars($this);
+        if (empty($properties)) {
+            $methods = get_class_methods(get_class($this));
 
-        foreach ($properties as $key => $value) {
-            if (!in_array($key, $array)) {
-                unset($properties[$key]);
+            foreach ($methods as $method) {
+                if (substr($method, 0, 3) === 'get') {
+                    $key = lcfirst(substr($method, 3));
+                    $key = $this->convertToSnakeCase($key);
+                    $output[$key] = $this->$method();
+                }
             }
-        }
-
-        return $properties;
-    }
-
-    # Short method to validate $data
-    protected function validate(array $data)
-    {
-        return self::$validator->validate($data, $this->rules);
-    }
-
-    # Short method to validate image
-    protected function validateImage($FILE, $type)
-    {
-        return self::$validator->validateImage($FILE, $this->rules, $type);
-    }
-
-    # Method to find one record from database
-    # array $conditions: ['id' => 5, 'name' => "bike"]
-    # string $options: ORDER BY column_name ASC|DESC
-    # bool $rulesitory: true|false => if created object need have access to $rules and $repository
-    # $namespace: which of class will be created object
-    public function find(array $conditions, string $options = "", bool $rulesitory = true, $namaspace = null)
-    {
-        if ($namaspace == null) {
-            $namaspace = get_class($this);
-        }
-
-        if ($data = $this->repository->get($conditions, $options)) {
-            return new $namaspace($data, $rulesitory);
-        }
-
-        return null;
-    }
-
-    # Method to find one record from database by ID
-    public function findById($id, string $options = "", bool $rulesitory = true, $namaspace = null)
-    {
-        return $this->find(['id' => $id], $options, $rulesitory, $namaspace);
-    }
-
-    # Method to find a lot of record from database
-    public function findAll(array $conditions, string $options = "", bool $rulesitory = true, $namaspace = null)
-    {
-        $output = [];
-        $data = $this->repository->getAll($conditions, $options);
-
-        if ($namaspace == null) {
-            $namaspace = get_class($this);
-        }
-
-        if ($data) {
-            foreach ($data as $item) {
-                $output[] = new $namaspace($item, $rulesitory);
-            }
-        }
-
-        return $output;
-    }
-
-    # Method adds record to database
-    # if object was validated earlier we can skip validate in this method
-    public function create(bool $validate = true)
-    {
-        $data = $this->getArray($this->fillable);
-
-        if (($validate === true && $this->validate($data)) || $validate === false) {
-            $this->repository->create($this);
-            return true;
-        }
-
-        return false;
-    }
-
-    # Method updates current object | we can skip validate
-    # array $toValidate: which properties will be validate
-    public function update(array $toValidate = [], bool $validate = true)
-    {
-        $data = $this->getArray($toValidate);
-
-        if (($validate === true && $this->validate($data)) || $validate === false) {
-            $this->escape();
-            $this->repository->update($this);
-            Session::success('Dane zostały zaktualizowane'); // Default value
-            return true;
-        }
-        return false;
-    }
-
-    # Method delete record from database
-    # if property ID is sets this record will we deleted
-    # else current object will be deleted
-    public function delete(?int $id = null)
-    {
-        if ($id !== null) {
-            $this->repository->delete((int) $id);
         } else {
-            $this->repository->delete((int) $this->id);
+            $properties[] = "id";
+
+            foreach ($properties as $name) {
+                $method = 'get' . $this->convertToCamelCase($name);
+
+                if (method_exists($this, $method)) {
+                    $output[$name] = $this->$method();
+                }
+            }
         }
+
+        return $output ?? [];
     }
 
     # Method do htmlentities on every property
     public function escape()
     {
-        foreach ($this->fillable as $index => $key) {
+        $properties = get_object_vars($this);
+
+        foreach ($properties as $index => $key) {
             if (property_exists($this, $key)) {
                 $this->$key = htmlentities((string) $this->$key);
             }
@@ -193,7 +78,7 @@ abstract class AbstractModel
     public function hashFile($file)
     {
         $type = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        $name = $this->hash(date('Y-m-d H:i:s') . "_" . $file['name']);
+        $name = hash('sha256', date('Y-m-d H:i:s') . "_" . $file['name']);
         $file['name'] = $name . '.' . $type;
         return $file;
     }
@@ -211,20 +96,8 @@ abstract class AbstractModel
         }
     }
 
-    # Method required to property exists
-    private function propertyExists($name)
-    {
-        $properties = get_object_vars($this);
-
-        if (array_key_exists($name, (array) $properties)) {
-            return true;
-        } else {
-            throw new AppException("Property [" . $name . "] doesn't exists");
-        }
-    }
-
     # $url - Project location as "/.."
-    public function getLocation()
+    public function _getLocation()
     {
         # Project location => http://localhost/php-start/
         $location = self::$config->get('project.location');
@@ -242,5 +115,16 @@ abstract class AbstractModel
         $output = ".$output/";
 
         return $output;
+    }
+    private function convertToSnakeCase($string)
+    {
+        $string = preg_replace('/([A-Z])/', '_$1', $string);
+        return strtolower($string);
+    }
+
+    private function convertToCamelCase($string)
+    {
+        $string = ucwords($string, '_');
+        return str_replace('_', '', $string);
     }
 }

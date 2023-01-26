@@ -1,13 +1,12 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Phantom\Controller;
 
 error_reporting(1);
 ini_set('display_errors', "1");
 
-use App\Model\User;
 use App\Service\Google;
 use Phantom\Exception\AppException;
 use Phantom\Exception\ConfigurationException;
@@ -24,12 +23,11 @@ use Phantom\View;
 
 abstract class AbstractController extends Validator
 {
-    protected static $config = [];
-    protected static $route = [];
+    protected static Config $config;
+    protected static Route $route;
     protected $request;
     protected $view;
     protected $user = null;
-    private $userModel;
     protected $model;
     protected $google;
     public static function initConfiguration(Config $config, Route $route): void
@@ -47,7 +45,6 @@ abstract class AbstractController extends Validator
         AbstractRepository::initConfiguration(self::$config->get('db'));
 
         $this->google = new Google(self::$config->get('project.location'), self::$route);
-
         $this->user = $this->google->login();
         $this->request = $request;
     }
@@ -70,11 +67,11 @@ abstract class AbstractController extends Validator
             }
 
             switch (get_class($result)) {
-                case "Phantom\View":{
+                case "Phantom\View": {
                         $result->render();
                         break;
                     }
-                case "Phantom\RedirectToRoute":{
+                case "Phantom\RedirectToRoute": {
                         $result->redirect();
                         break;
                     }
