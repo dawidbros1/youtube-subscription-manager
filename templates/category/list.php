@@ -1,53 +1,45 @@
+<?php use App\Helper\Assets; ?>
 
-<div id = "list">
-   <div class = "row header">
-      <div class="col-6 list-handle border-end"><?=$category->get('name')?></div>
-      <div class="col-6 list-handle border-start">Nieskategoryzowane</div>
-   </div>
-   <!-- SUBSKRYPCJE Z GRUPY -->
-   <div class = "list-wrapper">
-      <?php foreach ($subscriptionInCategory as $key => $channel): ?>
-         <div class="row list-item">
-            <img class = "avatar col-3 col-md-2 col-xl-1" src = "<?=$channel->snippet->thumbnails->default->url?>">
-             <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
-               <div class="row">
-                  <div class="title col-12 fw-bold mb-2"><?=$channel->snippet->title?></div>
-                  <div class="col-12"><?=$channel->snippet->shortDescription;?></div>
-               </div>
-            </div>
-            <div class = "col-2 col-sm-3 col-md-2 col-xl-1">
-               <form action = "<?=$route->get('channel.delete')?>" method = "post">
-                  <input type = "hidden" name = "id" value = "<?=$channels[$key]->get('id')?>">
-                  <button class="btn btn-danger" type = "submit">USUŃ</button>
-               </form>
-            </div>
-         </div>
+<h1 class="text-center border-bottom mb-3 pb-3">Panel zarządzania grupami</h1>
 
-      <?php endforeach;?>
-   </div>
-   <!-- POZOSTAŁE SUBSKRYPCJE -->
-   <div class = "list-wrapper d-none">
+<div id="manage" class="d-flex flex-wrap">
+   <?php foreach ($user->getCategories() as $category): ?>
+      <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xxl-2 position-relative">
+         <a href="<?= $route->get("youtube", $category->getId()) ?>" class="item m-2 fw-bold"><?=
+               $category->getName() ?></a>
 
-   <?php foreach ($allMySubscriptions as $channel): ?>
-         <div class="row list-item">
-            <img class = "avatar col-3 col-md-2 col-xl-1" src = "<?=$channel->snippet->thumbnails->default->url?>">
-             <div class = "details col-7 col-sm-6 col-md-8 col-xl-10">
-               <div class="row">
-                  <div class="title col-12 fw-bold mb-2"><?=$channel->snippet->title?></div>
-                  <div class="col-12"><?=$channel->snippet->shortDescription?></div>
-               </div>
-            </div>
-            <div class = "col-2 col-sm-3 col-md-2 col-xl-1">
-               <form action = "<?=$route->get('channel.create')?>" method = "post">
-                  <input type = "hidden" name = "channelId" value = "<?=$channel->snippet->resourceId->channelId?>">
-                  <input type = "hidden" name = "category_id" value = "<?=$category->get('id')?>">
-                  <button class="btn btn-success" type = "submit">DODAJ</button>
-               </form>
-            </div>
-         </div>
+         <img src="<?= Assets::get("images/edit.png") ?>" class="edit-form-handle icon icon-edit">
+         <img src="<?= Assets::get("images/delete.png") ?>" class="delete-form-handle icon icon-delete">
+      </div>
 
-      <?php endforeach;?>
-   </div>
+      <div class="center form-wrapper delete-form-wrapper d-none">
+         <div id="information">Czy jesteś pewny, że chcesz usunąć grupę <span class="fw-bold">
+               <?= $category->getName() ?>
+            </span></div>
+
+         <form class="d-flex flex-wrap" method="post" action="<?= $route->get('category.delete') ?>">
+            <input type="hidden" name="id" value="<?= $category->getId() ?>">
+            <button class="col-5 btn btn-success cancel" type="button">Anuluj</button>
+            <button class="col-5 offset-2 btn btn-danger" type="submit">TAK</button>
+         </form>
+      </div>
+
+      <div class="center form-wrapper edit-form-wrapper d-none">
+         <h2 class="text-center fw-bold fs-5">EDYCJA GRUPY</h2>
+
+         <form class="d-flex flex-wrap" method="post" action="<?= $route->get('category.edit', $category->getId()) ?>">
+            <input class="form-control mb-2" type="text" name="name" value="<?= $category->getName() ?>"
+               placeholder="Nazwa grupy">
+            <button class="col-5 btn btn-primary cancel" type="button">Anuluj</button>
+            <button class="col-5 offset-2 btn btn-success" type="submit">Zapisz zmiany</button>
+         </form>
+      </div>
+
+   <?php endforeach; ?>
 </div>
 
-<script>initToggleList();</script>
+
+<script>
+   initToggleForm('delete')
+   initToggleForm('edit')
+</script>

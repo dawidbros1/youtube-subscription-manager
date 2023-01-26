@@ -1,11 +1,16 @@
 Options FollowSymLinks
 RewriteEngine On
 
-ErrorDocument 404 http://localhost/php-start/templates/error/404.php
+ErrorDocument 404 http://localhost/youtube-subscriptions-manager/templates/error/404.php
 
 RewriteRule DirectoryIndex . [QSA,L] 
-RewriteRule ^policy$ ./?action=policy [QSA,L] 
-RewriteRule ^contact$ ./?action=contact [QSA,L] 
-RewriteRule ^regulations$ ./?action=regulations [QSA,L] 
 RewriteRule ^authorization$ ./?type=authorization&action=saveAccessToken [QSA,L] 
 RewriteRule ^logout$ ./?type=authorization&action=logout [QSA,L] 
+RewriteRule ^category/create$ ./?type=category&action=create [QSA,L] 
+RewriteRule ^category/list$ ./?type=category&action=list [QSA,L] 
+RewriteRule ^category/edit/([0-9]+)$ ./?type=category&action=edit&id=$1 [QSA,L] 
+RewriteRule ^category/delete$ ./?type=category&action=delete [QSA,L] 
+RewriteRule ^channel/create$ ./?type=channel&action=create [QSA,L] 
+RewriteRule ^channel/delete$ ./?type=channel&action=delete [QSA,L] 
+RewriteRule ^category/video/([0-9]+)$ ./?type=video&action=index&id=$1 [QSA,L] 
+RewriteRule ^youtube/subscription/list/([0-9]+)$ ./?type=youtube&action=index&id=$1 [QSA,L] 

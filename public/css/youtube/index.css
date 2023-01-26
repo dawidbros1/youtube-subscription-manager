@@ -1,0 +1,40 @@
+#list .list-item{
+   padding-bottom: 10px;
+   padding-top: 10px;
+}
+
+#list img{
+   height: 90px;
+   border-radius: 100%;
+}
+
+#list .details{
+   overflow: hidden;
+   height: 85px;
+}
+
+#list .list-wrapper .list-item:nth-child(even){
+   background-color: black;
+   color: white;
+}
+
+#list button{
+   margin-top: 33.5px;
+} 
+
+#list form{
+   margin: auto
+}
+
+#list .header *{
+   background-color: black;
+   color: white;
+   font-weight: bold;
+   text-align: center;
+   padding: 5px 0;
+   cursor: pointer;
+}
+
+button.btn{
+   float: right;
+}
