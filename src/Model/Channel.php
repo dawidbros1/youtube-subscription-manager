@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,14 +9,38 @@ use Phantom\Repository\StdRepository;
 
 class Channel extends AbstractModel
 {
-    public $fillable = ['id', 'category_id', 'channelId'];
+    private $id;
+    private $category_id;
+    private $channel_id;
+    protected $table = "channels";
 
-    public function __construct(array $data = [], bool $stdRepository = true)
+    public function setId($id)
     {
-        parent::__construct($data, false);
+        $this->id = $id;
+    }
 
-        if ($stdRepository) {
-            $this->repository = new StdRepository('channels');
-        }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setCategoryId($category_id)
+    {
+        $this->category_id = $category_id;
+    }
+
+    public function getCategoryId()
+    {
+        return $this->category_id;
+    }
+
+    public function setChannelId($channel_id)
+    {
+        $this->channel_id = $channel_id;
+    }
+
+    public function getChannelId()
+    {
+        return $this->channel_id;
     }
 }
