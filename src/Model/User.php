@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -30,5 +30,21 @@ class User
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    public function _getCategory(int $id, $relation = false)
+    {
+        foreach ($this->categories as $category) {
+            if ($id == $category->getId()) {
+
+                if ($relation == true) {
+                    $category->loadChannels();
+                }
+
+                return $category;
+            }
+        }
+
+        return null;
     }
 }
