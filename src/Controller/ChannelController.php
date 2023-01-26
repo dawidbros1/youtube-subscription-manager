@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -25,12 +25,12 @@ class ChannelController extends AbstractController
         if ($data = $this->request->isPost(['category_id', 'channelId'])) {
             $this->requireAccessToCategory($data['category_id']);
 
-            $this->model->setArray([
+            $this->model->set([
                 'category_id' => $data['category_id'],
                 'channelId' => $data['channelId'],
             ]);
 
-            if ($this->model->create(false)) {
+            if ($this->model->create()) {
                 Session::success("Kanał został dodany");
             }
         }
@@ -42,7 +42,7 @@ class ChannelController extends AbstractController
     {
         if ($id = $this->request->isPost(['id'])) {
             $channel = $this->search($id);
-            $this->requireAccessToCategory($channel->get('category_id'));
+            $this->requireAccessToCategory($channel->getCategoryId());
             $channel->delete();
             Session::success("Kanał został usunięty z grupy");
         }

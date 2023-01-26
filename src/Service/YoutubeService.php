@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -40,7 +40,11 @@ class YoutubeService
     # Form local class Channel to YouTube class Channel
     public function getChannels(array $channels)
     {
-        $ids = array_column($channels, 'channelId');
+        $ids = [];
+
+        foreach ($channels as $channel) {
+            $ids[] = $channel->getChannelId();
+        }
 
         if (empty($ids)) {
             return [];
@@ -58,8 +62,9 @@ class YoutubeService
 
         foreach ($channels as $channel) {
             $result = $this->service->search->listSearch('snippet', [
-                'channelId' => $channel->channelId,
-                'maxResults' => 50, // get last 50 videos per canal
+                'channelId' => $channel->getChannelId(),
+                'maxResults' => 50,
+                // get last 50 videos per canal
                 'order' => 'date',
                 'type' => "video",
             ]);
