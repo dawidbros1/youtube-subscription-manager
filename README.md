@@ -3,6 +3,7 @@ It is an application that allows you to segregate YouTube subscriptions by addin
 
 ## Build with
 1. PHP 7.4
+2. BOOTSTRAP 5
 
 ## Features
 1. Logging in with a google account
@@ -19,26 +20,38 @@ It is an application that allows you to segregate YouTube subscriptions by addin
 
 ## YouTube Data API
 1. Obtaining [authorization credentials](https://developers.google.com/youtube/registering_an_application) (OAuth 2.0)
+
+![](docs/images/api/page.png)
+
 2. Set `Authorized redirect URIs` on `domain.com/authorization`
+
+![](docs/images/api/create.png)
+
+![](docs/images/api/form.png)
+
 3. Download and place keys in root directory with name like `client_secret.json`,
+
+![](docs/images/api/list.png)
+
+![](docs/images/api/keys.png)
 
 [YouTube Data API Overview](https://developers.google.com/youtube/v3/getting-started)
 
 ## Screenshots
-![](docs/images/homepage.png)
+![](docs/images/project/homepage.png)
 
-![](docs/images/homepage_logged.png)
+![](docs/images/project/homepage_logged.png)
 
-![](docs/images/manage.png)
+![](docs/images/project/manage.png)
 
-![](docs/images/edit.png)
+![](docs/images/project/edit.png)
 
-![](docs/images/delete.png)
+![](docs/images/project/delete.png)
 
-![](docs/images/list.png)
+![](docs/images/project/list.png)
 
-![](docs/images/list_notCategorized.png)
+![](docs/images/project/list_notCategorized.png)
 
-![](docs/images/show_grid.png)
+![](docs/images/project/show_grid.png)
 
-![](docs/images/show_list.png)
+![](docs/images/project/show_list.png)
