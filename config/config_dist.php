@@ -15,5 +15,6 @@ return new Config(
             'user' => '',
             'password' => '',
         ],
+        'env' => "dev"
     ]
 );
