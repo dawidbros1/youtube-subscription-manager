@@ -78,9 +78,12 @@ abstract class AbstractController extends Validator
             }
 
         } catch (StorageException $e) {
-            DUMP("ACTION ERROR in AbstractController->run()");
+            if (self::$config->get('env') == "dev") {
+                dump($e);
+            } else {
+                dump($e->getMessage());
+            }
             die();
-            // $this->view->render('error', ['message' => $e->getMessage()]);
         }
     }
 

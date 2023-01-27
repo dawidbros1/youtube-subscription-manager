@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 ini_set("session.gc_maxlifetime", '31536000');
 ini_set('session.cookie_lifetime', '31536000');
@@ -17,6 +17,7 @@ $config = require_once 'config/config.php';
 
 $location = $config->get('project.location');
 $route = require_once 'routes/routes.php'; // variable $location is require
+
 use App\Helper\Assets;
 use Phantom\Controller\AbstractController;
 use Phantom\Exception\AppException;
@@ -35,31 +36,31 @@ try {
     $phantom = "\Phantom\Controller\\" . ucfirst($type) . "Controller";
     $app = "\App\Controller\\" . ucfirst($type) . "Controller";
 
-    if (class_exists($app)) {
-        $controller = new $app($request);
-    } else if (class_exists($phantom)) {
-        $controller = new $phantom($request);
+    if (($src = class_exists($app)) || ($framework = class_exists($phantom))) {
+        $controller = $src ? new $app($request) : new $phantom($request);
+        $controller->run();
     } else {
-        dump("TODO [index.php]: Controller [" . $type . "] doen't exists");
-        // TODO Controller doen't exists
-        die();
+        if ($config->get('env') == "dev") {
+            dump("TODO [index.php]: Controller [" . $type . "] doen't exists");
+        } else {
+            dump("Podany adres nie został rozpoznany ...");
+        }
     }
-
-    $controller->run();
 
 } catch (ConfigurationException $e) {
     echo '<h1>Wystąpił błąd w aplikacji</h1>';
     echo 'Problem z aplikacją, proszę spróbować za chwilę.';
 } catch (AppException $e) {
     echo '<h1>Wystąpił błąd w aplikacji</h1>';
-    echo '<h3>' . $e->getMessage() . '</h3>';
+
+    if ($config->get('env') == "dev") {
+        echo '<h3>' . $e->getMessage() . '</h3>';
+    }
+
 } catch (\Throwable $e) {
     echo '<h1>Wystąpił błąd w aplikacji </h1>';
-    dump($e);
-}
 
-/*
-TODO: Error wyżej
-TODO: Sortowanie filmów
-TODO: Szybki powrót na górę
- */
+    if ($config->get('env') == "dev") {
+        dump($e);
+    }
+}
