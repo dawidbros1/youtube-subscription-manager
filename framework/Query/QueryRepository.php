@@ -45,12 +45,8 @@ abstract class QueryRepository
     // # Method adds record to database
     public function create($object)
     {
-
         $object->escape();
         $data = $object->_getData();
-
-
-
 
         $params = "";
         $values = "";
@@ -62,18 +58,13 @@ abstract class QueryRepository
             next($data);
         }
 
-        dump($this->table);
-        dump($values);
-        // die();
-
-
-        // try {
+        try {
             $sql = "INSERT INTO $this->table ($params) VALUES ($values)";
             $stmt = self::$pdo->prepare($sql);
             $stmt->execute($data);
-        // } catch (Throwable $e) {
-        //     throw new StorageException('Nie udało się dodać nowej zawartości', 400, $e);
-        // }
+        } catch (Throwable $e) {
+            throw new StorageException('Nie udało się dodać nowej zawartości', 400, $e);
+        }
     }
 
     # Method updates the record in the database by ID
