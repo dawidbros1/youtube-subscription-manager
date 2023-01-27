@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 07 Lis 2022, 09:42
+-- Czas generowania: 27 Sty 2023, 08:59
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 7.4.13
 
@@ -42,7 +42,7 @@ CREATE TABLE `categories` (
 CREATE TABLE `channels` (
   `id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
-  `channelId` varchar(255) COLLATE utf8_polish_ci NOT NULL
+  `channel_id` varchar(255) COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 --
