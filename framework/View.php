@@ -55,7 +55,7 @@ class View
             ${$key} = $param;
         }
 
-        require_once 'templates/layout/main.php';
+        require_once 'templates/layout/app-layout.php';
     }
 
     # Method do htmlentities on every $params

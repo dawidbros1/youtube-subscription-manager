@@ -18,6 +18,7 @@ use Phantom\Model\Config;
 use Phantom\Model\Route;
 use Phantom\RedirectToRoute;
 use Phantom\Repository\AbstractRepository;
+use Phantom\Repository\DBFinder;
 use Phantom\Validator\Validator;
 use Phantom\View;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Phantom\Model;
 
 use Phantom\Helper\Session;
-use Phantom\Query\QueryModel;
+use Phantom\Model\QueryModel;
 
 abstract class AbstractModel extends QueryModel
 {

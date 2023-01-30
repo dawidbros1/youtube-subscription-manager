@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Phantom\Model;
 
@@ -16,6 +16,9 @@ abstract class AbstractRules
         $this->rules();
         $this->messages();
     }
+
+    public abstract function rules();
+    public abstract function messages();
 
     # Method to create rule
     # string $type: type of rule => username|password|email

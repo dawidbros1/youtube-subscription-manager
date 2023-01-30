@@ -8,7 +8,6 @@ use PDO;
 use PDOException;
 use Phantom\Exception\ConfigurationException;
 use Phantom\Exception\StorageException;
-use Phantom\Query\QueryRepository;
 
 abstract class AbstractRepository extends QueryRepository
 {

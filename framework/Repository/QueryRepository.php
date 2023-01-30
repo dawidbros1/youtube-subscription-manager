@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Phantom\Query;
+namespace Phantom\Repository;
 
 use PDO;
 use Phantom\Exception\StorageException;
