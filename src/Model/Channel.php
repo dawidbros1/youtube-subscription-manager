@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Phantom\Model\AbstractModel;
-use Phantom\Repository\StdRepository;
 
 class Channel extends AbstractModel
 {
