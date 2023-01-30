@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use Phantom\Repository\DBFinder;
+
 class User
 {
     private $id;
@@ -14,7 +16,7 @@ class User
     {
         $this->id = $youtube->id;
         $this->username = $youtube->snippet->title;
-        $this->categories = (new Category())->findAll(['user' => $this->id]);
+        $this->categories = (DBFinder::getInstance('categories'))->findAll(['user' => $this->id], Category::class);
     }
 
     public function getId()

@@ -9,6 +9,7 @@ use App\Model\Channel;
 use Phantom\Controller\AbstractController;
 use Phantom\Helper\Request;
 use Phantom\Helper\Session;
+use Phantom\Repository\DBFinder;
 
 class ChannelController extends AbstractController
 {
@@ -52,7 +53,7 @@ class ChannelController extends AbstractController
 
     private function search($id)
     {
-        if ($channel = $this->model->findById($id)) {
+        if ($channel = DBFinder::getInstance('channels')->findById($id, Channel::class)) {
             return $channel;
         }
 
@@ -62,10 +63,10 @@ class ChannelController extends AbstractController
 
     private function requireAccessToCategory($id)
     {
-        $category = (new Category())->find([
+        $category = DBFinder::getInstance('categories')->find([
             'id' => $id,
-            'user' => $this->user->getId(),
-        ]);
+            'user' => $this->user->getId()
+        ], Category::class);
 
         if ($category == null) {
             Session::error("Brak uprawnień");
